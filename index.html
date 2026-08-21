@@ -127,6 +127,30 @@ body.hardlocked{overflow:hidden;}
 #chatSend{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:0 18px;font-weight:700;font-size:.9rem;cursor:pointer;}
 #chatSend:active{background:var(--purple-d);}
 @media(max-width:600px){#chatLog{max-height:52vh;}}
+/* CHAT MANAGER */
+.chatBar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+.cbtn{background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 13px;font-size:.8rem;font-weight:700;color:var(--purple);cursor:pointer;}
+.cbtn:active{background:var(--gold-l);}
+.cbtn.warn{color:var(--red);}
+.modeRow{display:flex;gap:6px;margin-bottom:10px;align-items:center;flex-wrap:wrap;}
+.mchip{border:1px solid var(--line);background:#fff;border-radius:16px;padding:5px 12px;font-size:.75rem;color:var(--grey);cursor:pointer;font-weight:700;}
+.mchip.on{background:var(--purple);color:#fff;border-color:var(--purple);}
+#chatList{display:none;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:#fff;max-height:38vh;overflow-y:auto;}
+#chatList.open{display:block;}
+.clrow{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:.85rem;}
+.clrow:last-child{border-bottom:none;}
+.clrow.cur{background:var(--gold-l);font-weight:700;}
+.clrow .tt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.clx{border:none;background:none;color:var(--red);font-size:.95rem;padding:0 4px;cursor:pointer;}
+.clp{border:none;background:none;font-size:.9rem;padding:0 2px;cursor:pointer;opacity:.4;}
+.clp.pinned{opacity:1;}
+.attachStrip{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.attachStrip:empty{margin:0;}
+.attChip{display:flex;align-items:center;gap:7px;background:var(--gold-l);border:1px solid var(--gold);border-radius:10px;padding:5px 9px;font-size:.75rem;font-weight:600;max-width:100%;}
+.attChip img{height:44px;width:auto;border-radius:6px;display:block;}
+.attChip .rm{cursor:pointer;color:var(--red);font-weight:800;padding:0 2px;}
+.bub.imgb{padding:6px;}
+.bub.imgb img{max-width:210px;border-radius:10px;display:block;}
 </style>
 </head>
 <body>
@@ -734,7 +758,22 @@ body.hardlocked{overflow:hidden;}
   <h2 class="pt">💬 Ask Ox</h2>
   <p class="lede">Your personal assistant, built into the platform. Type any question below — about files, links, procedures, dates — and get the answer instantly.</p>
   <div id="chatCard">
+    <div class="chatBar">
+      <button class="cbtn" onclick="toggleChatList()">💬 Chats</button>
+      <button class="cbtn" onclick="newChat()">➕ New chat</button>
+      <button class="cbtn warn" onclick="clearCurrent()">🧹 Clear this chat</button>
+      <button class="cbtn" onclick="document.getElementById('fileIn').click()">📎 Attach image / file</button>
+      <input type="file" id="fileIn" accept="image/*,.txt,.csv,.md,.json" style="display:none" onchange="onFile(this)">
+    </div>
+    <div id="chatList"></div>
+    <div class="modeRow" id="modeRow">
+      <span style="font-size:.7rem;color:var(--grey);font-weight:700;letter-spacing:.08em;">MODE</span>
+      <button class="mchip on" data-m="guide" onclick="setMode('guide')">📋 Guide</button>
+      <button class="mchip" data-m="quick" onclick="setMode('quick')">⚡ Quick</button>
+      <button class="mchip" data-m="deep" onclick="setMode('deep')">🧠 Deep</button>
+    </div>
     <div id="chatLog"></div>
+    <div id="attachStrip" class="attachStrip"></div>
     <div class="chips" id="quickQ">
       <a href="#" onclick="quickAsk('Where is the handbook PDF?');return false;">📄 Handbook PDF?</a>
       <a href="#" onclick="quickAsk('We are going to the ECOSOC office — what do we need?');return false;">🏛️ ECOSOC visit</a>
@@ -895,7 +934,7 @@ const KB=[
  {k:["existing programs","current programs","what do we run","activities"],a:"📋 Program portfolio: menstrual hygiene drives · education/bursary support for girls · skills & empowerment workshops · mentorship · community outreach. The vocational training academy is the next big build — say 'vocational' for its launch plan."},
  {k:["un status","ecosoc status","un accreditation","consultative status","un goals"],a:"🌍 UN track: working toward ECOSOC consultative status + visibility across UN days (Oct 11, Mar 8...). Every program should map to SDGs — especially SDG 4 Education, SDG 5 Gender, SDG 3 Health. Handbook §9 holds the diplomatic playbook; accreditation letters in Letters Index."},
  {k:["where is ox app","ox app","save to platform","your computer","chat app"],a:"💬 Clearing the confusion: 'Ox' is the assistant you're talking to RIGHT NOW in this chat window on your computer (the same one that built this platform). This phone platform carries my BUILT-IN brain below — it answers most questions offline. For brand-new drafting work, type your request in that same computer chat window where you asked me to build things, then say 'save to platform' and I'll pin the answer into this page permanently."},
- {k:["what do you know","your knowledge","brain","capabilities","what can i ask"],a:"🧠 My built-in brain covers: every file location (handbook PDF/HTML, reminder pack, dossier) · every secret link (hub, letters index, visibility plan, funding pack, vault) · program playbooks (vocational training, scholarships, MHM, outreach...) · funding & proposals · partnerships & GES · safeguarding · events · media · dates · privacy rules. Ask in plain full sentences — I handle them."},
+ {k:["what do you know","your knowledge","brain","capabilities","what can i ask"],a:"🧠 My built-in brain covers: every file location (handbook PDF/HTML, reminder pack, dossier) · every secret link (hub, letters index, visibility plan, funding pack, vault) · program playbooks (vocational training, scholarships, MHM, outreach...) · funding & proposals · partnerships & GES · safeguarding · events · media · dates · privacy rules · file generators.\n\nChat powers: multiple saved chats (pin 📌 / delete / new), Quick ⚡ / Guide 📋 / Deep 🧠 answer modes, attach images by paste or 📎 — and I can SEARCH INSIDE attached text files and quote the exact lines."},
  {k:["ecosoc","un office","ecosoc office","office visit","accredit","diplomatic","embassy","commission","present them"],a:"🏛️ ECOSOC / UN office visit:\n1. Bring/print: certificate of incorporation, ECOSOC accreditation papers, EPK profile, latest activity report, one-page proposal.\n2. Rehearse a 60-second introduction.\n3. Dress formally, arrive 15 min early.\n4. Afterwards: log it on People page + photo evidence to Drive 02-Evidence.\nFull detail: Handbook Section 9 (UN & Diplomatic Track) — search \"UN\" above."},
  {k:["handbook pdf","print handbook","pdf location","handbook file","handbook document"],a:"📄 Operations Handbook:\n• PDF (print): Documents\\ATF-Chief-of-Staff\\Chief_of_Staff_Handbook.pdf\n• Same PDF also copied to Desktop\n• Interactive version opens in any browser: Documents\\ATF-Chief-of-Staff\\Chief_of_Staff_Handbook.html"},
  {k:["calendar","ics","reminder","import","alarm"],a:"📅 CoS_Reminder_Pack.ics is on your Desktop. Import once: calendar.google.com → ⚙ Settings → Import & export → pick the file → done (Setup Guide 2). Your phone then reminds you automatically forever."},
@@ -943,10 +982,45 @@ const KB=[
  {k:["can you think","do you think","are you smart","are you intelligent","think well","your intelligence"],a:"🧠 Honest answer: I think in a focused way — I reason over EVERYTHING your foundation has built (every file, procedure, playbook and date) and construct step-by-step answers from it. On foundation matters that makes me sharper than any general AI, because they know nothing about Abena Tay Foundation. What I can't do offline is free imagination beyond my stored knowledge — BUT I never stay limited: (1) teach me any missing answer right here and it's mine forever, (2) ask Ox in the computer chat for brand-new thinking and say 'save to platform'. Every day this brain grows."}
 ];
 const chatLog=document.getElementById("chatLog"),chatIn=document.getElementById("chatIn");
-let chatHist=[];try{chatHist=JSON.parse(localStorage.getItem("cos_chat")||"[]")||[];}catch(e){chatHist=[];}
-function addBub(w,t){var d=document.createElement("div");d.className="bub "+w;var parts=String(t).split(/(\[\[[^\]]+\]\])/);parts.forEach(function(p){var m=p.match(/^\[\[([^|\]]+)\|([^\]]+)\]\]$/);if(m){var a=document.createElement("a");a.href=m[2];a.textContent=m[1];a.target="_blank";a.rel="noopener";d.appendChild(a);}else if(p){d.appendChild(document.createTextNode(p));}});chatLog.appendChild(d);chatLog.scrollTop=chatLog.scrollHeight;}
-function saveChat(){try{localStorage.setItem("cos_chat",JSON.stringify(chatHist.slice(-80)));}catch(e){}}
-function renderChat(){if(!chatHist.length){addBub("ox","Hello Paul! 👋 I am Ox — built into your platform. Ask me anything: files, links, procedures, dates, what to do in any situation. Try a suggestion chip below or just type.");return;}chatHist.forEach(function(m){addBub(m.w,m.t);});}
+let CONVOS=[],CUR=null,MODE="guide",PIMG=null,PDOC=null,LASTDOC=null;
+function loadStore(){
+  try{var d=JSON.parse(localStorage.getItem("cos_chats_v2")||"null");
+    if(d&&d.convos&&d.convos.length){CONVOS=d.convos;CUR=d.cur&&CONVOS.some(function(c){return c.id===d.cur;})?d.cur:d.convos[d.convos.length-1].id;MODE=d.mode||"guide";return;}
+  }catch(e){}
+  var legacy=[];try{legacy=JSON.parse(localStorage.getItem("cos_chat")||"[]")||[];}catch(e){}
+  var first=legacy.filter(function(m){return m.w==="me";})[0];
+  CONVOS=[{id:"c1",title:first?String(first.t).slice(0,34):"My first chat",pinned:true,ts:Date.now(),m:legacy}];CUR="c1";save();
+}
+function save(){try{localStorage.setItem("cos_chats_v2",JSON.stringify({cur:CUR,mode:MODE,convos:CONVOS.slice(-40)}));}catch(e){}}
+function curC(){for(var i=0;i<CONVOS.length;i++)if(CONVOS[i].id===CUR)return CONVOS[i];return null;}
+function addBub(w,t,img){var d=document.createElement("div");d.className="bub "+w+(img?" imgb":"");var parts=String(t).split(/(\[\[[^\]]+\]\])/);parts.forEach(function(p){var m=p.match(/^\[\[([^|\]]+)\|([^\]]+)\]\]$/);if(m){var a=document.createElement("a");a.href=m[2];a.textContent=m[1];a.target="_blank";a.rel="noopener";d.appendChild(a);}else if(p){d.appendChild(document.createTextNode(p));}});if(img){var im=document.createElement("img");im.src=img;d.appendChild(im);}chatLog.appendChild(d);chatLog.scrollTop=chatLog.scrollHeight;}
+function render(){chatLog.innerHTML="";var c=curC();if(!c||!c.m.length){addBub("ox","Hello Paul! 👋 New chat ready. Ask me anything — or attach 📎 an image/file.");return;}c.m.forEach(function(m){addBub(m.w,m.t,m.img);});}
+function renderList(){var L=document.getElementById("chatList");L.innerHTML="";CONVOS.slice().sort(function(a,b){return (b.pinned?1:0)-(a.pinned?1:0)||b.ts-a.ts;}).forEach(function(c){
+  var r=document.createElement("div");r.className="clrow"+(c.id===CUR?" cur":"");
+  r.innerHTML='<button class="clp'+(c.pinned?' pinned':'')+'" title="Pin">'+(c.pinned?"📌":"📍")+'</button><span class="tt"></span><button class="clx" title="Delete">✕</button>';
+  r.querySelector(".tt").textContent=c.title;
+  r.querySelector(".clp").onclick=function(ev){ev.stopPropagation();c.pinned=!c.pinned;save();renderList();};
+  r.querySelector(".clx").onclick=function(ev){ev.stopPropagation();if(!confirm("Delete this chat forever?"))return;CONVOS=CONVOS.filter(function(x){return x.id!==c.id;});if(CUR===c.id){if(CONVOS.length)CUR=CONVOS[CONVOS.length-1].id;else newChat(true);}save();render();renderList();};
+  r.onclick=function(){CUR=c.id;save();render();renderList();document.getElementById("chatList").classList.remove("open");};
+  L.appendChild(r);});}
+function toggleChatList(){var L=document.getElementById("chatList");L.classList.toggle("open");renderList();}
+function newChat(silent){CUR="c"+Date.now();CONVOS.push({id:CUR,title:"New chat",pinned:false,ts:Date.now(),m:[]});save();if(!silent){render();renderList();document.getElementById("chatList").classList.add("open");}return CUR;}
+function clearCurrent(){var c=curC();if(c&&confirm("Clear all messages in this chat?")){c.m=[];c.title="New chat";save();render();}}
+function setMode(m){MODE=m;save();document.querySelectorAll("#modeRow .mchip").forEach(function(b){b.classList.toggle("on",b.dataset.m===m);});}
+function drawStrip(){var S=document.getElementById("attachStrip");S.innerHTML="";
+  if(PIMG){var ch=document.createElement("div");ch.className="attChip";ch.innerHTML='<img alt="attachment"><span>Image</span><span class="rm">✕</span>';ch.querySelector("img").src=PIMG;ch.querySelector(".rm").onclick=function(){PIMG=null;drawStrip();};S.appendChild(ch);}
+  if(PDOC){var ch2=document.createElement("div");ch2.className="attChip";ch2.innerHTML="📄 "+PDOC.name+' <span class="rm">✕</span>';ch2.querySelector(".rm").onclick=function(){PDOC=null;drawStrip();};S.appendChild(ch2);}
+  if(!PIMG&&!PDOC)S.innerHTML="";}
+function onFile(input){var f=input.files&&input.files[0];input.value="";if(!f)return;
+  if(/^image\//.test(f.type)){var url=URL.createObjectURL(f),im=new Image();im.onload=function(){var cv=document.createElement("canvas"),sc=Math.min(1,900/Math.max(im.width,im.height));cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);try{PIMG=cv.toDataURL("image/jpeg",0.72);}catch(e){}URL.revokeObjectURL(url);drawStrip();};im.src=url;}
+  else if(/(text|json)/.test(f.type)||/\.(txt|csv|md|json)$/i.test(f.name)){var rd=new FileReader();rd.onload=function(){LASTDOC={name:f.name,text:String(rd.result).slice(0,120000)};PDOC={name:f.name};drawStrip();};rd.readAsText(f);}
+  else{PDOC={name:f.name+" (type not searchable)"};drawStrip();}
+}
+function docSearch(doc,q){if(!doc||!doc.text)return null;var words=bag(q).filter(function(w){return w.length>2;});if(!words.length)return null;
+  var lines=doc.text.split(/\r?\n/),hits=[];
+  lines.forEach(function(l,i){var ll=l.toLowerCase(),s=0;words.forEach(function(w){if(ll.indexOf(w)>-1)s++;});if(s>0)hits.push({n:i+1,l:l.trim().slice(0,180),s:s});});
+  hits.sort(function(a,b){return b.s-a.s;});if(!hits.length)return "📄 I read "+doc.name+" ("+lines.length+" lines) — nothing matches \""+q+"\" in it.";
+  return "📄 From "+doc.name+", the "+Math.min(hits.length,5)+" most relevant lines:\n"+hits.slice(0,5).map(function(h){return "• L"+h.n+": "+h.l;}).join("\n")+"\n\nAsk about this file anytime while it stays attached.";}
 var SYNS=[["girl","girls","female","woman","women","teenager","teenagers"],["training","vocational","skills","apprentice","apprenticeship"],["school","schools","education"],["program","programs","project","projects","initiative"],["fund","funding","money","budget","finance","sponsorship","sponsor"],["donor","donors","funder","funders","grant","grants"],["propose","proposal","concept"],["partner","partners","partnership","partnerships","collaborate"],["letter","letters","correspondence"],["report","reports","reporting"],["event","events"],["volunteer","volunteers"],["media","press","publicity"],["document","documents","file","files","pdf","pdfs"]];
 function stem(w){if(w.length>4&&w.slice(-3)==="ing")return w.slice(0,-3);if(w.length>4&&w.slice(-2)==="es")return w.slice(0,-2);if(w.length>3&&w.charAt(w.length-1)==="s")return w.slice(0,-1);return w;}
 function bag(s){var out={},toks=s.toLowerCase().replace(/[^a-z0-9₵ ]/g," ").split(/\s+/).filter(function(t){return t.length>1;});toks.forEach(function(t){out[stem(t)]=1;});SYNS.forEach(function(g){var hit=g.some(function(m){return out[stem(m)];});if(hit)g.forEach(function(m){out[stem(m)]=1;});});return Object.keys(out);}
@@ -1050,16 +1124,36 @@ function tryGenerate(q){
 }
 const FALLBACK="That exact one isn't in my built-in brain yet. Two instant fixes:\n1. 🧠 A teach-me box just appeared below — write the answer once, and I'll know it forever on this device.\n2. Or ask Ox live in the computer chat and say \"save to platform\".\nMeanwhile you can also try the 🔍 search bar above, or say \"create an attendance sheet\" / \"make a flyer for ...\" to watch me build files.";
 function sendQ(){
-  var v=chatIn.value.trim();if(!v)return;
-  chatIn.value="";chatHist.push({w:"me",t:v});addBub("me",v);saveChat();
+  var v=chatIn.value.trim();
+  if(!v&&!PIMG&&!PDOC)return;
+  chatIn.value="";
+  var c=curC();if(!c)c=CONVOS[CONVOS.push({id:CUR,title:"New chat",pinned:false,ts:Date.now(),m:[]})-1];
+  if(v&&c.m.filter(function(x){return x.w==="me";}).length===0&&c.title==="New chat")c.title=v.slice(0,34);
+  if(PIMG){var im={w:"me",t:"📷 Image attached",img:PIMG};c.m.push(im);addBub("me",im.t,PIMG);PIMG=null;drawStrip();}
+  if(PDOC){var dn=PDOC.name;LASTDOC=LASTDOC&&LASTDOC.name===dn?LASTDOC:{name:dn,text:LASTDOC?LASTDOC.text:null};var dt={w:"me",t:"📄 File attached: "+dn};c.m.push(dt);addBub("me",dt.t);PDOC=null;drawStrip();}
+  if(!v){save();return;}
+  c.m.push({w:"me",t:v});addBub("me",v);save();
   setTimeout(function(){
     var ans;
-    try{ans=oxAnswer(v)||FALLBACK;}catch(ex){ans="⚠️ Small hiccup on that one — try rephrasing, or the 🔍 search bar.";}
-    chatHist.push({w:"ox",t:ans});addBub("ox",ans);saveChat();
+    try{
+      ans=docSearch(LASTDOC,v)||oxAnswer(v)||FALLBACK;
+      if(ans!==FALLBACK){
+        if(MODE==="quick"){ans=ans.split("\n\n——")[0].split("\n").slice(0,4).join("\n");}
+        else if(MODE==="deep"){ans+="\n\n🎯 Next action: begin with step 1 today — small starts win.";}
+      }
+    }catch(ex){ans="⚠️ Small hiccup on that one — try rephrasing, or the 🔍 search bar.";}
+    c.m.push({w:"ox",t:ans});addBub("ox",ans);save();
   },260);
 }
 function quickAsk(q){chatIn.value=q;sendQ();}
-try{renderChat();}catch(e){}
+document.getElementById("chatIn").addEventListener("paste",function(e){
+  try{var items=(e.clipboardData||{}).items||[];
+    for(var i=0;i<items.length;i++){if(/^image\//.test(items[i].type)){var f=items[i].getAsFile();if(!f)continue;
+      var url=URL.createObjectURL(f),im=new Image();im.onload=function(){var cv=document.createElement("canvas"),sc=Math.min(1,900/Math.max(im.width,im.height));cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);try{PIMG=cv.toDataURL("image/jpeg",0.72);}catch(err){}URL.revokeObjectURL(url);drawStrip();};im.src=url;e.preventDefault();break;}
+    }
+  }catch(e2){}
+});
+loadStore();render();setMode(MODE);
 
 // ROUTER
 const pages=document.querySelectorAll('.page');
