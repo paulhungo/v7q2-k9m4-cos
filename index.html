@@ -637,6 +637,10 @@ function route(){
   document.querySelectorAll('#drawer a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));
   document.querySelectorAll('nav.tabs a[data-tab]').forEach(a=>a.classList.toggle('active',a.dataset.tab===id));
   window.scrollTo({top:0});
+  if(location.hash.startsWith('#h-s')){
+    const el=document.getElementById(location.hash.slice(1));
+    if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+  }
 }
 window.addEventListener('hashchange',route);
 
@@ -663,14 +667,16 @@ document.getElementById('todayDate').textContent=now.toLocaleDateString('en-GB',
 
 // COUNTDOWNS
 function daysUntil(d){return Math.ceil((d-new Date())/86400000);}
+function lastWorkingDay(){const e=new Date(now.getFullYear(),now.getMonth()+1,0);while(e.getDay()===0||e.getDay()===6)e.setDate(e.getDate()-1);return e;}
 document.querySelectorAll('.cd').forEach(td=>{
   const ds=td.dataset;let t='';
   if(ds.date){t=daysUntil(new Date(ds.date+'T09:00:00'))+' days';}
+  else if(ds.date===''){const e=lastWorkingDay();t=e.getDate()+' '+e.toLocaleDateString('en-GB',{month:'short'})+' ('+daysUntil(new Date(new Date(e).setHours(9)) )+' days)';}
   else if(ds.weekday!==undefined&&ds.weekday!==''){const target=new Date();target.setHours(9,0,0,0);let diff=(parseInt(ds.weekday)-now.getDay()+7)%7;if(diff===0&&now.getHours()>=9)diff=7;t=diff===0?'Today':diff+' days';}
   else if(ds.firsttue){const d=new Date(now.getFullYear(),now.getMonth(),1);while(d.getDay()!==2)d.setDate(d.getDate()+1);if(d<new Date(new Date().toDateString()))d.setMonth(d.getMonth()+1);t=daysUntil(d)+' days ('+d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+')';}
-  else if(ds.md){const[y,m,dd]=ds.md.split('-');let d=new Date(now.getFullYear(),m-1,dd);if(d<new Date(new Date().toDateString()))d.setFullYear(d.getFullYear()+1);t=daysUntil(d)+' days ('+d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+')';}
-  else if(td.textContent.trim()===''){}
-  td.textContent=t||'—';
+  else if(ds.md){const p=ds.md.split('-');const mk=(y)=>new Date(y,parseInt(p[0],10)-1,parseInt(p[1],10));let d=mk(now.getFullYear());if(d<new Date(new Date().toDateString()))d=mk(now.getFullYear()+1);t=daysUntil(d)+' days ('+d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+')';}
+  else{t='—';}
+  td.textContent=t;
 });
 route();
 </script>
