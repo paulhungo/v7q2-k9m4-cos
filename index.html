@@ -80,15 +80,79 @@ nav.tabs a.active{color:var(--purple);}
 
 footer.ft{text-align:center;color:var(--grey);font-size:.75rem;padding:20px;}
 @media(min-width:900px){body{padding-bottom:30px;}nav.tabs{display:none;}main{padding:24px 28px;}}
+/* PIN LOCK */
+#lock{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,var(--purple-d),var(--purple) 60%,#5a3a85);display:flex;align-items:center;justify-content:center;padding:20px;}
+#lock.off{display:none;}
+.lock-card{width:100%;max-width:320px;text-align:center;color:#fff;}
+.lock-card .lg{width:64px;height:64px;border-radius:18px;background:var(--gold);color:var(--purple-d);font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.lock-card h2{font-family:Georgia,serif;font-size:1.25rem;margin-bottom:4px;color:#fff;border:none;padding:0;}
+.lock-card p.msg{color:var(--gold-l);font-size:.85rem;min-height:2.6em;margin-bottom:8px;}
+.dots{display:flex;gap:14px;justify-content:center;margin-bottom:18px;}
+.dots i{width:13px;height:13px;border-radius:50%;border:2px solid var(--gold-l);transition:background .15s;}
+.dots i.on{background:var(--gold);}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:260px;margin:0 auto;}
+.pad button{background:rgba(255,255,255,.09);border:1px solid rgba(244,233,200,.35);color:#fff;font-size:1.45rem;font-weight:600;border-radius:16px;padding:13px 0;cursor:pointer;}
+.pad button:active{background:var(--gold);color:var(--purple-d);}
+.pad button.aux{font-size:1rem;color:var(--gold-l);}
+@keyframes shakeit{20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shakeit .4s;}
+body.hardlocked{overflow:hidden;}
+
+/* SEARCH */
+#searchWrap{position:sticky;top:62px;z-index:60;background:var(--cream);padding:10px 16px 8px;max-width:980px;margin:0 auto;box-shadow:0 6px 12px -10px rgba(40,20,70,.3);}
+#searchBox{width:100%;padding:11px 14px 11px 38px;border:2px solid var(--line);border-radius:12px;font-size:.95rem;background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%236b6478" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>') no-repeat 12px center;}
+#searchBox:focus{outline:none;border-color:var(--gold);}
+#searchRes{display:none;position:absolute;left:16px;right:16px;top:100%;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(30,15,60,.22);max-height:60vh;overflow-y:auto;margin-top:4px;}
+#searchRes.open{display:block;}
+.sr{display:block;padding:10px 14px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);}
+.sr:last-child{border-bottom:none;}
+.sr b{color:var(--purple);}
+.sr em{display:block;font-style:normal;color:var(--grey);font-size:.78rem;margin-top:2px;}
+.sr:hover{background:var(--gold-l);}
+@media(max-width:600px){#searchWrap{top:56px;}}
+/* CHAT */
+#chatCard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 4px 18px rgba(40,20,70,.08);}
+#chatLog{max-height:48vh;overflow-y:auto;padding:6px 2px;display:flex;flex-direction:column;gap:10px;}
+.bub{max-width:88%;padding:11px 15px;border-radius:16px;font-size:.93rem;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;}
+.bub.me{align-self:flex-end;background:var(--purple);color:#fff;border-bottom-right-radius:4px;}
+.bub.ox{align-self:flex-start;background:var(--gold-l);color:var(--ink);border-bottom-left-radius:4px;border:1px solid var(--line);}
+.bub.ox b{color:var(--purple-d);}
+.chatRow{display:flex;gap:8px;margin-top:12px;}
+#chatIn{flex:1;padding:13px 14px;border:2px solid var(--line);border-radius:12px;font-size:.95rem;background:#fff;color:var(--ink);}
+#chatIn:focus{outline:none;border-color:var(--gold);}
+#chatSend{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:0 18px;font-weight:700;font-size:.9rem;cursor:pointer;}
+#chatSend:active{background:var(--purple-d);}
+@media(max-width:600px){#chatLog{max-height:52vh;}}
 </style>
 </head>
 <body>
+
+<!-- PIN LOCK -->
+<div id="lock">
+  <div class="lock-card" id="lockCard">
+    <div class="lg">CoS</div>
+    <h2 id="lockTitle">Enter PIN</h2>
+    <p class="msg" id="lockMsg">Private workspace — Abena Tay Foundation</p>
+    <div class="dots" id="lockDots"><i></i><i></i><i></i><i></i></div>
+    <div class="pad">
+      <button onclick="pinKey('1')">1</button><button onclick="pinKey('2')">2</button><button onclick="pinKey('3')">3</button>
+      <button onclick="pinKey('4')">4</button><button onclick="pinKey('5')">5</button><button onclick="pinKey('6')">6</button>
+      <button onclick="pinKey('7')">7</button><button onclick="pinKey('8')">8</button><button onclick="pinKey('9')">9</button>
+      <button class="aux" onclick="pinBack()">⌫</button><button onclick="pinKey('0')">0</button><button class="aux" style="visibility:hidden">·</button>
+    </div>
+  </div>
+</div>
 
 <header class="top">
   <button id="burger" onclick="toggleDrawer(true)">☰</button>
   <div class="logo">CoS</div>
   <h1>Chief of Staff Platform<small>Abena Tay Foundation · Paul Hungo</small></h1>
 </header>
+
+<div id="searchWrap">
+  <input id="searchBox" type="search" placeholder="🔍 Search everything — e.g. ECOSOC visit, handbook PDF, funder…" autocomplete="off">
+  <div id="searchRes"></div>
+</div>
 
 <div id="scrim" onclick="toggleDrawer(false)"></div>
 <nav id="drawer">
@@ -104,6 +168,7 @@ footer.ft{text-align:center;color:var(--grey);font-size:.75rem;padding:20px;}
   <a href="#setup">🛠️ Setup Guides</a>
   <a href="#dates">📅 Key Dates</a>
   <a href="#glossary">📖 Glossary</a>
+  <a href="#finder">🗂️ Everything Map</a>
   <a href="#askox">💬 Ask Ox</a>
 </nav>
 
@@ -546,6 +611,10 @@ footer.ft{text-align:center;color:var(--grey);font-size:.75rem;padding:20px;}
     <label class="ck"><input type="checkbox" id="v1"><span>Go to canva.com → Canva for Nonprofits → apply with foundation details + registration proof</span></label>
     <label class="ck"><input type="checkbox" id="v2"><span>Once approved: build EPK, flyers, banners free (templates inside Canva)</span></label>
   </div>
+  <div style="text-align:center;margin-top:18px;">
+    <a href="#" onclick="pinShow();return false;" style="display:inline-block;background:var(--red);color:#fff;padding:11px 22px;border-radius:12px;font-weight:700;text-decoration:none;">🔒 Lock this app now</a>
+    <p style="font-size:.78rem;color:var(--grey);margin-top:6px;">Locks instantly · auto-locks after 12 hours · PIN stays on this device only</p>
+  </div>
 </section>
 
 <!-- ================= KEY DATES ================= -->
@@ -600,18 +669,65 @@ footer.ft{text-align:center;color:var(--grey);font-size:.75rem;padding:20px;}
   <tr><td><b>GH₵</b></td><td>Ghana cedis (currency)</td></tr></table></div>
 </section>
 
+<!-- ================= EVERYTHING MAP ================= -->
+<section class="page" id="finder">
+  <h2 class="pt">🗂️ Everything Map</h2>
+  <p class="lede">Every file, link and secret address the Foundation owns — one list. Use 🔍 search above to jump straight to any of these.</p>
+
+  <h3>A · On this computer (Windows)</h3>
+  <div class="scroll"><table>
+    <tr><th>What</th><th>Where exactly (open File Explorer → paste path)</th><th>Use it for</th></tr>
+    <tr><td><b>Operations Handbook</b> (interactive)</td><td>C:\Users\user\Documents\ATF-Chief-of-Staff\Chief_of_Staff_Handbook.html</td><td>Daily reference — opens in browser</td></tr>
+    <tr><td><b>Operations Handbook</b> (print/PDF)</td><td>C:\Users\user\Documents\ATF-Chief-of-Staff\Chief_of_Staff_Handbook.pdf <br>(copy also on Desktop)</td><td>Print it; share with Founder</td></tr>
+    <tr><td><b>Calendar Reminder Pack</b></td><td>C:\Users\user\Desktop\CoS_Reminder_Pack.ics</td><td>Import to Google Calendar (Setup Guide 2)</td></tr>
+    <tr><td><b>Master Dossier</b> — 9 source files</td><td>C:\Users\user\AbenaTay-MasterDossier\</td><td>The original knowledge base: foundation info, letters, visibility kits, UN track</td></tr>
+    <tr><td><b>This platform's app files</b></td><td>C:\Users\user\Documents\ATF-CoS-Platform\</td><td>Only Ox touches these — they power the live site</td></tr>
+  </table></div>
+
+  <h3>B · Secret web addresses (bookmark on phone + PC)</h3>
+  <div class="scroll"><table>
+    <tr><th>Name</th><th>Address</th><th>Contains</th></tr>
+    <tr><td><b>CoS Platform</b> ← you are here</td><td>paulhungo.github.io/v7q2-k9m4-cos</td><td>All 13 pages incl. this map</td></tr>
+    <tr><td><b>Document Hub</b></td><td>paulhungo.github.io/xq7k-m2p9-hub</td><td>Command centres · Letters index · Visibility plan · Funding pack</td></tr>
+    <tr><td><b>Letters Index</b></td><td>…/xq7k-m2p9-hub/Letters/00_Letter_Index.html</td><td>All 23 letter items, ready to read or send</td></tr>
+    <tr><td><b>Visibility Master Plan</b></td><td>…/xq7k-m2p9-hub/Visibility/00_Global_Visibility_Master_Plan.html</td><td>9 visibility kits &amp; media strategy</td></tr>
+    <tr><td><b>Funding &amp; Partnership Pack</b></td><td>…/xq7k-m2p9-hub/Letters/00_Global_Funding_and_Partnership_Positioning_Pack.html</td><td>Funder positioning documents</td></tr>
+    <tr><td><b>Private Vault (GitHub)</b></td><td>github.com/paulhungo/atf</td><td>Master copies of everything — invite-only access</td></tr>
+  </table></div>
+  <div class="co red"><b class="tag">Never share / never post</b>These addresses are invisible to Google by design. Only people you personally give the link can open them. Never paste them on public social media.</div>
+
+  <h3>C · Situation cards — "We are going to…"</h3>
+  <p style="font-size:.85rem;color:var(--grey);">Tap search and type the bold phrase, or read here.</p>
+  <div class="grid">
+    <div class="card"><b>🏛️ "ECOSOC office visit"</b><br><span style="font-size:.86rem;">1. Print/download: Foundation registration certificate, EPK, latest report, accreditation letters (UN track → Handbook §9). 2. Rehearse 60-second intro. 3. Bring business cards. 4. Log visit afterwards in Relationships board + capture photo evidence.</span></div>
+    <div class="card"><b>🤝 "Meeting a funder"</b><br><span style="font-size:.86rem;">Handbook §8 pipeline: check their stage badge, bring one-pager + budget summary, agree ONE next step with a date, log it same day.</span></div>
+    <div class="card"><b>🎤 "Media interview"</b><br><span style="font-size:.86rem;">Visibility kit talking points (Master Plan), Founder's bio from dossier, approve outfit/photo consent, record everything for evidence folder.</span></div>
+    <div class="card"><b>🎉 "Event day"</b><br><span style="font-size:.86rem;">Program playbook §7 checklist: run-sheet, sign-in sheet, banners, water, first-aid, photographer brief. Post-event: photos to Drive 02-Evidence same day.</span></div>
+    <div class="card"><b>✉️ "Invitation arrived"</b><br><span style="font-size:.86rem;">Booking pipeline §5: log → calendar check → hold date → confirm terms with Founder → send EPK if confirmed → briefing card 3 days before.</span></div>
+    <div class="card"><b>📊 "Weekly report"</b><br><span style="font-size:.86rem;">Friday ritual (Today page): wins, numbers vs KPI §11, next week top 3, blockers. Template in Handbook §14.</span></div>
+  </div>
+</section>
+
 <!-- ================= ASK OX ================= -->
 <section class="page" id="askox">
   <h2 class="pt">💬 Ask Ox</h2>
-  <p class="lede">Your living question-and-answer space. Plain text answers, always here.</p>
-  <div class="co green"><b class="tag">How it works</b>1. Open the chat with Ox (wherever you normally talk). 2. Ask anything. 3. Say "put it on my platform". 4. Refresh this page — the answer appears below, saved permanently.</div>
-  <h3>Q&amp;A Feed</h3>
-  <div class="card"><b>Q: What do I actually do on my very first morning?</b><br>A: Open the Today page. Do the 7-item morning routine top to bottom. Then give the Founder her 5-line brief (template in Handbook → Templates). That's it — the system carries the rest.</div>
-  <div class="card"><b>Q: An invitation just arrived for Madam — what do I do?</b><br>A: Run it through the Booking Pipeline (Handbook §5): log it → check calendar → hold date → ask her to confirm terms → send EPK if confirmed → prepare briefing card 3 days before → capture evidence after.</div>
-  <div class="card"><b>Q: A funder replied — now what?</b><br>A: Same day: log it in the Relationships board, update their stage badge, set the next-action date. If they ask for documents → Grant Folder checklist (Handbook §8). If unclear → ask Ox to draft the reply.</div>
-  <div class="card"><b>Q: Where are the actual letters and kits?</b><br>A: Asset Map page has every link. Letters live in vault/Letters; kits in vault/Visibility; dossier on this PC in Documents → AbenaTay-MasterDossier.</div>
-  <div class="card"><b>Q: How do I keep this platform private like everything else?</b><br>A: This address is unguessable and hidden from search engines. Share individual pages only with people the Founder approves — same rule as the other secret site.</div>
-  <div class="co blue"><b class="tag">New answers land here</b>Whenever Ox answers something useful in chat, say "save to platform" and it joins this feed.</div>
+  <p class="lede">Your personal assistant, built into the platform. Type any question below — about files, links, procedures, dates — and get the answer instantly.</p>
+  <div id="chatCard">
+    <div id="chatLog"></div>
+    <div class="chips" id="quickQ">
+      <a href="#" onclick="quickAsk('Where is the handbook PDF?');return false;">📄 Handbook PDF?</a>
+      <a href="#" onclick="quickAsk('We are going to the ECOSOC office — what do we need?');return false;">🏛️ ECOSOC visit</a>
+      <a href="#" onclick="quickAsk('A funder replied — now what?');return false;">🤝 Funder replied</a>
+      <a href="#" onclick="quickAsk('An invitation arrived for Madam');return false;">✉️ Invitation</a>
+      <a href="#" onclick="quickAsk('What are my tasks today?');return false;">📅 Today?</a>
+      <a href="#" onclick="quickAsk('Where are the letters?');return false;">✉️ Letters</a>
+    </div>
+    <div class="chatRow">
+      <input id="chatIn" type="text" placeholder="Type your question here…" autocomplete="off">
+      <button id="chatSend" onclick="sendQ()">Send ➤</button>
+    </div>
+  </div>
+  <div class="co blue" style="margin-top:16px;"><b class="tag">Beyond this app</b>This built-in Ox knows everything stored in your platform, dossier and vault. For brand-new work ("draft a letter to X", "design a flyer") open the <b>Ox chat app on your computer</b> — same assistant, full power — then say "save it to my platform".</div>
 </section>
 
 </main>
@@ -627,6 +743,169 @@ footer.ft{text-align:center;color:var(--grey);font-size:.75rem;padding:20px;}
 <footer class="ft">Confidential — Abena Tay Foundation internal tool · Prepared for Paul Hungo, Chief of Staff · Hidden from search engines</footer>
 
 <script>
+// ============ PIN LOCK ============
+let pinBuf="",pinStage="check",pinFirst="";
+const PIN_TTL=12*3600*1000;
+function sha(s){if(window.crypto&&crypto.subtle&&window.TextEncoder){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return x.toString(16).padStart(2,"0");}).join("");});}let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*0x01000193)>>>0;}return Promise.resolve("f"+h.toString(16));}
+function pinDots(){document.querySelectorAll("#lockDots i").forEach(function(d,i){d.classList.toggle("on",i<pinBuf.length);});}
+function pinMsg(m){document.getElementById("lockMsg").textContent=m;}
+function pinTitle(t){document.getElementById("lockTitle").textContent=t;}
+function pinShow(){document.getElementById("lock").classList.remove("off");document.body.classList.add("hardlocked");pinBuf="";pinDots();}
+function pinHide(){document.getElementById("lock").classList.add("off");document.body.classList.remove("hardlocked");try{localStorage.setItem("cos_pin_until",String(Date.now()+PIN_TTL));}catch(e){}}
+function shakeCard(){var c=document.getElementById("lockCard");c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");}
+async function pinSubmit(){
+  var h=await sha(pinBuf);
+  if(pinStage==="create"){pinFirst=h;pinStage="confirm";pinBuf="";pinDots();pinTitle("Confirm PIN");pinMsg("Type the same 4 digits again.");return;}
+  if(pinStage==="confirm"){
+    if(h===pinFirst){try{localStorage.setItem("cos_pin",h);}catch(e){}pinStage="open";pinHide();return;}
+    pinStage="create";pinFirst="";pinBuf="";pinDots();pinTitle("Create PIN");pinMsg("Did not match — start again.");shakeCard();return;
+  }
+  var saved="";try{saved=localStorage.getItem("cos_pin")||"";}catch(e){}
+  if(h===saved){pinStage="open";pinHide();}
+  else{pinBuf="";pinDots();pinMsg("Wrong PIN — try again.");shakeCard();}
+}
+function pinKey(k){if(pinBuf.length>=4)return;pinBuf+=k;pinDots();if(pinBuf.length===4)setTimeout(pinSubmit,130);}
+function pinBack(){pinBuf=pinBuf.slice(0,-1);pinDots();}
+(function pinInit(){
+  var saved="";try{saved=localStorage.getItem("cos_pin")||"";}catch(e){}
+  if(!saved){pinStage="create";pinTitle("Create PIN");pinMsg("Choose a 4-digit PIN for this private app.");}
+  else{var until=parseInt(localStorage.getItem("cos_pin_until")||"0",10);if(Date.now()<until){pinStage="open";pinHide();}}
+})();
+document.addEventListener("keydown",function(e){
+  var lockOff=document.getElementById("lock").classList.contains("off");
+  if(!lockOff){
+    if(/^[0-9]$/.test(e.key))pinKey(e.key);
+    else if(e.key==="Backspace")pinBack();
+    return;
+  }
+  if(document.activeElement&&document.activeElement.id==="chatIn"&&e.key==="Enter"){sendQ();}
+});
+
+// ============ SEARCH ============
+const IDX=[
+ {t:"🏠 Today Dashboard",k:"today tasks routine morning schedule rhythm brief",d:"Daily flow, 7-step morning routine, quick jump",go:"#today"},
+ {t:"📘 Handbook §1 The Mandate",k:"mandate role chief of staff duties",d:"Handbook section 1 — your role defined",go:"#handbook"},
+ {t:"📘 Handbook §3 Where Everything Lives",k:"where everything lives files storage folders locations",d:"Handbook section 3 — master file map",go:"#handbook"},
+ {t:"📘 Handbook §4 Operating Rhythm",k:"rhythm weekly schedule timetable monday friday",d:"Handbook section 4 — the week cycle",go:"#handbook"},
+ {t:"📘 Handbook §5 Founder's Office & Booking Pipeline",k:"booking invitation pipeline founder office protocol",d:"Handbook section 5 — invitations & briefings",go:"#handbook"},
+ {t:"📘 Handbook §6 Relationship Register Rules",k:"relationships register contacts funders rules",d:"Handbook section 6 — contact discipline",go:"#handbook"},
+ {t:"📘 Handbook §7 Program & Event Playbook",k:"event program playbook launch checklist run sheet",d:"Handbook section 7 — event execution",go:"#handbook"},
+ {t:"📘 Handbook §8 Fundraising Pipeline",k:"fundraising pipeline grant funder opportunity radar budget",d:"Handbook section 8 — money pipeline",go:"#handbook"},
+ {t:"📘 Handbook §9 UN & Diplomatic Track",k:"un ecosoc diplomatic accreditation embassy commission",d:"Handbook section 9 — international track",go:"#handbook"},
+ {t:"📘 Handbook §10 Visibility Operations",k:"visibility media press linkedin branding interview",d:"Handbook section 10 — public presence",go:"#handbook"},
+ {t:"📘 Handbook §11 KPI Scorecard",k:"kpi scorecard numbers metrics targets report",d:"Handbook section 11 — measuring success",go:"#handbook"},
+ {t:"📘 Handbook §12 Twelve-Month Roadmap",k:"roadmap twelve month plan year timeline",d:"Handbook section 12 — the year ahead",go:"#handbook"},
+ {t:"📘 Handbook §13 Difficult Times Protocol",k:"difficult crisis protocol scandal emergency times",d:"Handbook section 13 — when things go wrong",go:"#handbook"},
+ {t:"📘 Handbook §14 Templates",k:"templates letters brief report draft formats",d:"Handbook section 14 — ready-made documents",go:"#handbook"},
+ {t:"🗺️ Asset Map",k:"asset map links command centres sites addresses",d:"Every link the foundation owns",go:"#assets"},
+ {t:"🤝 People & Funders",k:"people relationships funders partners contacts board donors",d:"Relationship register & follow-ups",go:"#people"},
+ {t:"📦 Resources & Gaps",k:"resources gaps equipment needs inventory",d:"What we have vs what we need",go:"#resources"},
+ {t:"✅ Program Readiness",k:"readiness ready checklist venue materials preparation",d:"Pre-event readiness check",go:"#readiness"},
+ {t:"✉️ Letters Audit",k:"letters audit index correspondence official",d:"All 23 letter items tracked",go:"#letters"},
+ {t:"🧩 Problems & Solutions Log",k:"problems solutions issues fixes log obstacles",d:"Issue → fix record",go:"#problems"},
+ {t:"🛠️ Setup Guides",k:"setup guides alerts calendar bitwarden drive canva password import",d:"Five one-time setup wins",go:"#setup"},
+ {t:"📅 Key Dates",k:"dates deadlines countdown october november march may tuesday monthly close",d:"Live countdowns for every key date",go:"#dates"},
+ {t:"📖 Glossary",k:"glossary abbreviations epk cos sop ngo kpi mhd definitions",d:"Every acronym explained simply",go:"#glossary"},
+ {t:"🗂️ Everything Map",k:"everything map all files master index where located paths",d:"Master list of every file & link",go:"#finder"},
+ {t:"💬 Ask Ox",k:"ask ox chat question answer assistant help",d:"Built-in assistant — type any question",go:"#askox"},
+ {t:"📄 Operations Handbook PDF (this PC)",k:"handbook pdf print file location download desktop",d:'Documents\\ATF-Chief-of-Staff\\Chief_of_Staff_Handbook.pdf — copy also on Desktop',go:"#finder"},
+ {t:"📄 Operations Handbook interactive (this PC)",k:"handbook html interactive browser open offline",d:'Documents\\ATF-Chief-of-Staff\\Chief_of_Staff_Handbook.html',go:"#finder"},
+ {t:"📅 Reminder pack .ics (this PC)",k:"ics reminder calendar import alarms pack desktop",d:"Desktop\\CoS_Reminder_Pack.ics — Setup Guide 2 imports it",go:"#finder"},
+ {t:"📚 Master Dossier folder (this PC)",k:"dossier source files folder abenatay master original",d:"C:\\Users\\user\\AbenaTay-MasterDossier\\ — nine source files",go:"#finder"},
+ {t:"🗂️ Document Hub (secret site)",k:"hub document secret site xq7k links letters visibility",d:"paulhungo.github.io/xq7k-m2p9-hub — link only, invisible to Google",go:"https://paulhungo.github.io/xq7k-m2p9-hub/"},
+ {t:"✉️ Letters Index (secret site)",k:"letters index read send 23 items",d:"Document Hub → Letters → 00_Letter_Index",go:"https://paulhungo.github.io/xq7k-m2p9-hub/Letters/00_Letter_Index.html"},
+ {t:"📣 Visibility Master Plan (secret site)",k:"visibility master plan kits media strategy branding",d:"Document Hub → Visibility folder — 9 kits",go:"https://paulhungo.github.io/xq7k-m2p9-hub/Visibility/00_Global_Visibility_Master_Plan.html"},
+ {t:"💰 Funding & Partnership Pack (secret site)",k:"funding partnership positioning pack funder approach",d:"Document Hub → Letters folder",go:"https://paulhungo.github.io/xq7k-m2p9-hub/Letters/00_Global_Funding_and_Partnership_Positioning_Pack.html"},
+ {t:"🔐 Private Vault GitHub",k:"vault github repo master copies atf private",d:"github.com/paulhungo/atf — invite-only",go:"https://github.com/paulhungo/atf"}
+];
+const sb=document.getElementById("searchBox"),sres=document.getElementById("searchRes");
+function doSearch(){
+  var q=sb.value.toLowerCase().trim();
+  if(q.length<2){sres.classList.remove("open");sres.innerHTML="";return;}
+  var words=q.split(/\s+/),hits=[];
+  IDX.forEach(function(e){
+    var hay=(e.t+" "+e.k+" "+e.d).toLowerCase(),s=0;
+    words.forEach(function(w){if(w&&hay.includes(w))s++;});
+    if(s>0)hits.push({e:e,s:s});
+  });
+  hits.sort(function(a,b){return b.s-a.s;});
+  var out="";
+  hits.slice(0,8).forEach(function(h){out+='<a class="sr" href="'+h.e.go+'"'+(h.e.go.indexOf("http")===0?" target=\"_blank\"":"")+'><b>'+h.e.t+"</b><em>"+h.e.d+"</em></a>";});
+  sres.innerHTML=out||'<div class="sr"><b>No match</b><em>Try fewer words — or ask Ox on the Ask Ox page</em></div>';
+  sres.classList.add("open");
+}
+sb.addEventListener("input",doSearch);
+sb.addEventListener("focus",function(){if(sb.value.trim().length>=1)doSearch();});
+sres.addEventListener("click",function(){sres.classList.remove("open");sb.value="";});
+document.addEventListener("click",function(ev){if(!ev.target.closest("#searchWrap"))sres.classList.remove("open");});
+
+// ============ OX CHAT BRAIN ============
+const KB=[
+ {k:["ecosoc","un office","accredit","diplomatic","embassy","commission","present them"],a:"🏛️ ECOSOC / UN office visit:\n1. Bring/print: certificate of incorporation, ECOSOC accreditation papers, EPK profile, latest activity report, one-page proposal.\n2. Rehearse a 60-second introduction.\n3. Dress formally, arrive 15 min early.\n4. Afterwards: log it on People page + photo evidence to Drive 02-Evidence.\nFull detail: Handbook Section 9 (UN & Diplomatic Track) — search \"UN\" above."},
+ {k:["handbook pdf","print handbook","pdf location","handbook file","handbook document"],a:"📄 Operations Handbook:\n• PDF (print): Documents\\ATF-Chief-of-Staff\\Chief_of_Staff_Handbook.pdf\n• Same PDF also copied to Desktop\n• Interactive version opens in any browser: Documents\\ATF-Chief-of-Staff\\Chief_of_Staff_Handbook.html"},
+ {k:["calendar","ics","reminder","import","alarm"],a:"📅 CoS_Reminder_Pack.ics is on your Desktop. Import once: calendar.google.com → ⚙ Settings → Import & export → pick the file → done (Setup Guide 2). Your phone then reminds you automatically forever."},
+ {k:["letter","letters","correspondence"],a:"✉️ Letters live in two places:\n• Read instantly: Letters Index on the Document Hub (link on Asset Map page).\n• Master copies: vault 'atf' → Letters folder.\nBrand-new letter needed? Ask Ox on your computer to draft it."},
+ {k:["visibility","kit","media plan","branding","press kit plan"],a:"📣 Global Visibility Master Plan with all 9 kits is on the Document Hub → Visibility folder (direct link on Asset Map). Talking points, branding rules and posting schedule inside."},
+ {k:["funding pack","partnership pack","positioning","funder approach","sponsorship doc"],a:"💰 Funding & Partnership Positioning Pack is on the Document Hub under Letters. Read before ANY funder or partnership meeting."},
+ {k:["vault","github","master copy","repo"],a:"🔐 Private vault: github.com/paulhungo/atf — invite-only. Holds master copies of letters, kits and command centres."},
+ {k:["dossier","source files","original documents"],a:"📚 Master Dossier: C:\\Users\\user\\AbenaTay-MasterDossier\\ — nine files holding everything about the foundation (info, letters, kits, UN track)."},
+ {k:["hub","secret site","xq7k"],a:"🗂️ Document Hub address: paulhungo.github.io/xq7k-m2p9-hub — command centres, letters index, visibility plan, funding pack. Invisible to Google; works by link only."},
+ {k:["home screen","install app","add to phone","app icon","pwa"],a:"📱 On your phone: open this address in Chrome/Safari → menu ⋮ (or Share □↑) → Add to Home screen. Purple CoS icon appears — opens like a real app."},
+ {k:["today","tasks today","my day","routine now"],a:function(){return "☀️ Today is "+themes[now.getDay()][0]+". Flow: 7-step morning routine (Today page) → 08:45 Founder's brief → deep work till 12:00 → follow-up hour → operations → 16:00 closing routine: update trackers, file evidence, write tomorrow's Top 3."}},
+ {k:["schedule","week","weekly rhythm","timetable","monday","friday"],a:"🗓️ Weekly rhythm: Mon Planning · Tue Partnerships (pipeline updates) · Wed Programs · Thu Visibility (LinkedIn post) · Fri Accountability (report + filing) · Sat Field · Sun Rest."},
+ {k:["funder","donor","grant","replied","response","sponsor replied"],a:"🤝 Funder replied? Same day: log in Relationships board → update stage badge → set next-action date. Asked for documents? Grant Folder checklist in Handbook §8. Unsure of wording? Ask Ox on the computer to draft the reply."},
+ {k:["invitation","invite","booking","event request","rsvp"],a:"✉️ Invitation for Madam — Booking Pipeline (Handbook §5): log it → check calendar clash → hold date → confirm terms with her → send EPK if confirmed → briefing card 3 days before → capture evidence after."},
+ {k:["event day","launch","program day","rally","workshop day","conference"],a:"🎉 Event day kit (Handbook §7): run-sheet, sign-in sheets, banners, water, first aid, photographer brief. Afterwards same day: photos → Drive 02-Evidence + attendance numbers into KPIs."},
+ {k:["interview","radio","tv","journalist"],a:"🎤 Media interview prep: talking points from Visibility kit, approved bio, outfit check, consent for photos, record everything as evidence. Handbook §10 has full visibility ops."},
+ {k:["weekly report","report template","friday report","kpi report"],a:"📊 Weekly report (Friday ritual): wins this week · numbers vs KPI scorecard (§11) · next week Top 3 · blockers needing Madam. Template in Handbook §14."},
+ {k:["google alert","alerts","monitor mentions","mentions"],a:"🔔 Google Alerts (Setup Guide 1): google.com/alerts → create alerts for \"Abena Tay\", \"Abena Tay Foundation\", \"Daughters Ministries International\" → daily emails whenever anyone mentions her online."},
+ {k:["password","bitwarden","login details","credentials"],a:"🔑 Passwords: Bitwarden app, free (Setup Guide 3). Strong master password, saved offline too; add entries as accounts grow."},
+ {k:["drive","folder","upload","evidence","photos","filing"],a:"📁 Drive mirrors SOP folders: 01-Letters-Sent, 02-Evidence, 03-Finance, 04-Media, 05-Reports, 06-Certificates. Event photos uploaded same day. Guide 4 walks you through creating these once."},
+ {k:["canva","design","flyer","banner"],a:"🎨 Canva for Nonprofits gives free pro design tools (Setup Guide 5): apply with foundation details + registration proof, then build flyers, banners and the EPK free."},
+ {k:["epk","electronic press","press pack"],a:"📎 EPK = Electronic Press Kit — Madam's official profile pack: bio, photos, achievements, media features. Send when events ask who is coming. Build in Canva; master copy lives in vault."},
+ {k:["epk glossary","abbreviation","what is sop","what is kpi","what is ngo","ghs","cedis","titles"],a:"📖 Quick glossary: EPK Electronic Press Kit · CoS Chief of Staff · SOP Standard Operating Procedure · NGO Non-Governmental Organisation · ECOSOC UN Economic & Social Council · KPI Key Performance Indicator · MHD Menstrual Hygiene Day · GH₵ Ghana cedis · H.E./Amb./Rev. Founder's titles. Full list: Glossary page."},
+ {k:["date","deadline","when is","day of the girl","women day","menstrual hygiene","activism","first tuesday","monthly close"],a:"📅 Key dates: Oct 11 Day of the Girl · Nov 25–Dec 10 Activism · Mar 8 Women's Day · May 28 Menstrual Hygiene Day · month-end close last working day · every Tuesday pipeline update · first Tuesday staff review. Live countdowns on Key Dates page."},
+ {k:["private","privacy","share link","secret address","google find","search engine"],a:"🔒 Privacy model: unguessable addresses + Google blocked + zero public links. Only people you personally send the link can open anything. Never post these addresses publicly."},
+ {k:["who are you","what is ox","what can you do","about ox","yourself"],a:"👋 I'm Ox — the assistant that built this entire system. Inside this app I know every file path, link, procedure, template and date. For NEW work (draft letters, design, proposals) open the Ox chat app on your computer — same assistant, more power — then say \"save to platform\"."},
+ {k:["everything map","all files","master index","where everything"],a:"🗺️ The Everything Map page lists every file, link and secret address with exact locations — PC paths, web links, vault. It is the master index of the whole system."},
+ {k:["founder brief","brief madam","daily brief","morning brief"],a:"📝 Founder's daily brief (08:45, five lines): her schedule today · decisions needed from her · movements & visitors · key numbers · one thing to celebrate. Template: Handbook §14."},
+ {k:["pin","lock code","unlock","forgot pin","reset pin"],a:"🔒 PIN: created on first launch, auto-relocks after 12 hours, \"Lock now\" button at bottom of Setup page. Forgot it? Open the Ox app on your computer and ask me to reset — clearing site data restores access."},
+ {k:["search","find","look for"],a:"🔍 Two ways: the search bar at the very top jumps straight to pages/files — or ask me here in plain sentences like you would a person."},
+ {k:["problem","solution","issue","obstacle","stuck"],a:"🧩 Check the Problems & Solutions Log page first — every past issue and its fix is recorded so nothing repeats. New problem? Add it there after solving."},
+ {k:["ready","readiness","prepared","checklist before event"],a:"✅ Run the Program Readiness page 7 days before any event: venue, materials, people, money, comms — tick each box. Green means go."}
+];
+const chatLog=document.getElementById("chatLog"),chatIn=document.getElementById("chatIn");
+let chatHist=[];try{chatHist=JSON.parse(localStorage.getItem("cos_chat")||"[]")||[];}catch(e){chatHist=[];}
+function addBub(w,t){var d=document.createElement("div");d.className="bub "+w;d.textContent=t;chatLog.appendChild(d);chatLog.scrollTop=chatLog.scrollHeight;}
+function saveChat(){try{localStorage.setItem("cos_chat",JSON.stringify(chatHist.slice(-80)));}catch(e){}}
+function renderChat(){if(!chatHist.length){addBub("ox","Hello Paul! 👋 I am Ox — built into your platform. Ask me anything: files, links, procedures, dates, what to do in any situation. Try a suggestion chip below or just type.");return;}chatHist.forEach(function(m){addBub(m.w,m.t);});}
+function oxAnswer(q){
+  var s=q.toLowerCase();
+  if(/^(hi|hello|hey|good morning|good afternoon|good evening)\b/.test(s)&&s.length<30)return "Hello Paul! 👋 What do you need — a file, a procedure, a date?";
+  if(s.includes("thank"))return "Always, Paul 🙏 Anything else?";
+  if(/what time/.test(s))return "🕐 It is "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})+".";
+  if(/what.*(date|day) (is it|today)/.test(s))return "📅 Today is "+new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+".";
+  var best=null,bs=0;
+  KB.forEach(function(e){
+    var sc=0;
+    e.k.forEach(function(kw){if(s.includes(kw))sc+=(kw.length>4?2:1);});
+    if(sc>bs){bs=sc;best=e;}
+  });
+  if(!best)return null;
+  return typeof best.a==="function"?best.a():best.a;
+}
+const FALLBACK="Hmm — that one isn't in my built-in brain yet 🤔. Two options:\n1. Try the 🔍 search bar at the top\n2. Ask me live in the Ox app on your computer, then say \"save to platform\" and the answer joins my knowledge here.";
+function sendQ(){
+  var v=chatIn.value.trim();if(!v)return;
+  chatIn.value="";chatHist.push({w:"me",t:v});addBub("me",v);saveChat();
+  setTimeout(function(){
+    var ans=oxAnswer(v)||FALLBACK;
+    chatHist.push({w:"ox",t:ans});addBub("ox",ans);saveChat();
+  },260);
+}
+function quickAsk(q){chatIn.value=q;sendQ();}
+renderChat();
+
 // ROUTER
 const pages=document.querySelectorAll('.page');
 function route(){
