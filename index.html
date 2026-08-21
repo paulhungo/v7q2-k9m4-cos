@@ -857,6 +857,7 @@ function doSearch(){
   sres.innerHTML=out||'<div class="sr"><b>No match</b><em>Try fewer words — or ask Ox on the Ask Ox page</em></div>';
   sres.classList.add("open");
 }
+try{
 sb.addEventListener("input",doSearch);
 sb.addEventListener("focus",function(){if(sb.value.trim().length>=1)doSearch();});
 sres.addEventListener("click",function(){sres.classList.remove("open");sb.value="";});
