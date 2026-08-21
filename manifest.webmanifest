@@ -1,0 +1,13 @@
+{
+  "name": "CoS Operations Platform — Abena Tay Foundation",
+  "short_name": "CoS Hub",
+  "description": "Chief of Staff operations platform for the Abena Tay Foundation",
+  "start_url": "./index.html#today",
+  "display": "standalone",
+  "background_color": "#faf8f5",
+  "theme_color": "#4a2c6f",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CoS Operations Platform — Abena Tay Foundation</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4a2c6f">
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{--purple:#4a2c6f;--purple-d:#331d4d;--gold:#c9a227;--gold-l:#f4e9c8;--cream:#faf8f5;--ink:#2b2333;--grey:#6b6478;--line:#e5dfd0;--green:#1e7d46;--red:#b3372f;--blue:#2b5fa5;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;font-size:15.5px;padding-bottom:76px;}
+abbr[title]{text-decoration:underline dotted var(--gold);cursor:help;}
+header.top{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,var(--purple-d),var(--purple));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(40,20,70,.25);}
+header.top .logo{width:38px;height:38px;border-radius:10px;background:var(--gold);color:var(--purple-d);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;}
+header.top h1{font-size:1rem;line-height:1.2;flex:1;}header.top h1 small{display:block;font-weight:400;font-size:.7rem;color:var(--gold-l);}
+#burger{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;}
+
+/* DRAWER */
+#drawer{position:fixed;top:0;left:-290px;width:280px;height:100%;background:#fff;z-index:100;transition:left .25s;box-shadow:4px 0 20px rgba(0,0,0,.18);overflow-y:auto;padding:18px 0 90px;}
+#drawer.open{left:0;}
+#drawer .dh{padding:6px 20px 14px;color:var(--grey);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;}
+#drawer a{display:block;padding:11px 22px;color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;border-left:4px solid transparent;}
+#drawer a.active{border-left-color:var(--gold);background:var(--cream);color:var(--purple);}
+#scrim{position:fixed;inset:0;background:rgba(20,10,40,.45);z-index:90;display:none;}
+#scrim.show{display:block;}
+
+/* LAYOUT */
+main{max-width:980px;margin:0 auto;padding:18px 16px 30px;}
+.page{display:none;animation:fade .25s;}
+.page.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h2.pt{font-family:Georgia,serif;color:var(--purple-d);font-size:1.45rem;margin-bottom:2px;}
+p.lede{color:var(--grey);font-style:italic;margin-bottom:16px;font-size:.92rem;}
+h3{color:var(--purple);margin:22px 0 8px;font-size:1.05rem;border-left:4px solid var(--gold);padding-left:9px;}
+h4{margin:14px 0 6px;}
+p{margin:8px 0;}
+ul.pl{margin:8px 0 8px 22px;}li{margin:4px 0;}
+
+/* CARDS & TABLES */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:.86rem;background:#fff;}
+th{background:var(--purple);color:#fff;text-align:left;padding:8px 10px;}
+td{border:1px solid var(--line);padding:7px 10px;vertical-align:top;}
+tr:nth-child(even) td{background:var(--cream);}
+.scroll{overflow-x:auto;}
+
+/* CHECKS */
+label.ck{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-bottom:1px dashed var(--line);cursor:pointer;}
+label.ck input{width:19px;height:19px;accent-color:var(--purple);flex-shrink:0;margin-top:2px;}
+label.ck span b{color:var(--purple-d);}
+
+/* CALLOUTS & BADGES */
+.co{border-radius:12px;padding:13px 16px;margin:12px 0;border-left:5px solid var(--gold);background:var(--gold-l);font-size:.93rem;}
+.co.blue{border-color:var(--blue);background:#e8f0fb;}
+.co.green{border-color:var(--green);background:#e7f4ec;}
+.co.red{border-color:var(--red);background:#fbeae8;}
+.co b.tag{display:block;text-transform:uppercase;letter-spacing:.07em;font-size:.7rem;margin-bottom:5px;color:var(--purple-dark);color:var(--purple-d);}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.72rem;font-weight:700;}
+.b-g{background:#dff0e5;color:var(--green);} .b-r{background:#f7dedb;color:var(--red);} .b-b{background:#dfeafa;color:var(--blue);} .b-y{background:var(--gold-l);color:#8a6d0b;}
+
+/* TODAY */
+#todayHero{background:linear-gradient(135deg,var(--purple-d),var(--purple));color:#fff;border-radius:16px;padding:24px 22px;margin-bottom:14px;}
+#todayHero .big{font-family:Georgia,serif;font-size:1.6rem;}
+#todayHero .sub{color:var(--gold-l);font-size:.88rem;}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;}
+.chips a{white-space:nowrap;background:#fff;border:1px solid var(--line);color:var(--purple);font-weight:700;font-size:.82rem;padding:7px 14px;border-radius:999px;text-decoration:none;}
+.qjump{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:6px;}
+.qjump a{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:var(--ink);font-weight:700;display:block;}
+.qjump a em{display:block;font-style:normal;color:var(--grey);font-weight:400;font-size:.78rem;}
+
+/* BOTTOM TABS */
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:60;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 4px calc(8px + env(safe-area-inset-bottom));}
+nav.tabs a{text-decoration:none;color:var(--grey);font-size:.68rem;font-weight:700;text-align:center;flex:1;padding:4px 0;}
+nav.tabs a span{display:block;font-size:1.25rem;}
+nav.tabs a.active{color:var(--purple);}
+
+footer.ft{text-align:center;color:var(--grey);font-size:.75rem;padding:20px;}
+@media(min-width:900px){body{padding-bottom:30px;}nav.tabs{display:none;}main{padding:24px 28px;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <button id="burger" onclick="toggleDrawer(true)">☰</button>
+  <div class="logo">CoS</div>
+  <h1>Chief of Staff Platform<small>Abena Tay Foundation · Paul Hungo</small></h1>
+</header>
+
+<div id="scrim" onclick="toggleDrawer(false)"></div>
+<nav id="drawer">
+  <div class="dh">Menu</div>
+  <a href="#today">🏠 Today Dashboard</a>
+  <a href="#handbook">📘 Operations Handbook</a>
+  <a href="#assets">🗺️ Asset Map</a>
+  <a href="#people">🤝 Relationships &amp; Funders</a>
+  <a href="#resources">📦 Resources &amp; Gaps</a>
+  <a href="#readiness">✅ Program Readiness</a>
+  <a href="#letters">✉️ Letters Audit</a>
+  <a href="#problems">🧩 Problems &amp; Solutions Log</a>
+  <a href="#setup">🛠️ Setup Guides</a>
+  <a href="#dates">📅 Key Dates</a>
+  <a href="#glossary">📖 Glossary</a>
+  <a href="#askox">💬 Ask Ox</a>
+</nav>
+
+<main>
+
+<!-- ================= TODAY ================= -->
+<section class="page active" id="today">
+  <div id="todayHero">
+    <div class="big" id="todayName"></div>
+    <div class="sub" id="todayTheme"></div>
+    <div class="sub" id="todayDate"></div>
+  </div>
+  <div class="chips">
+    <a href="#readiness">✅ Program ready?</a><a href="#people">Funder follow-ups</a><a href="#letters">Letters</a><a href="#setup">Google Alerts setup</a><a href="#askox">Ask Ox 💬</a>
+  </div>
+  <h3>Morning Opening Routine <small style="color:var(--grey);font-weight:400">(first 45 minutes — ticks are saved on this device)</small></h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="t1"><span>Check overnight messages (<abbr title="WhatsApp messenger">WhatsApp</abbr>, email, phone) — flag anything urgent for the Founder</span></label>
+    <label class="ck"><input type="checkbox" id="t2"><span>Scan <strong>Google Alerts</strong> for new mentions of "Abena Tay" / "Abena Tay Foundation"</span></label>
+    <label class="ck"><input type="checkbox" id="t3"><span>Open calendar: confirm today's appointments, bookings, deadlines</span></label>
+    <label class="ck"><input type="checkbox" id="t4"><span>Check funder pipeline: any follow-up due today? Send before 10am</span></label>
+    <label class="ck"><input type="checkbox" id="t5"><span>Write your Top 3 priorities for today (maximum three)</span></label>
+    <label class="ck"><input type="checkbox" id="t6"><span>Prepare the Founder's daily brief (see Ask Ox → templates)</span></label>
+    <label class="ck"><input type="checkbox" id="t7"><span>Reschedule or delegate yesterday's unfinished items</span></label>
+  </div>
+  <h3>Daily Rhythm</h3>
+  <table><tr><th>Time</th><th>Block</th></tr>
+  <tr><td>08:00–08:45</td><td>Morning opening routine (above)</td></tr>
+  <tr><td>08:45–09:00</td><td>Founder's brief — her day, decisions needed, movements</td></tr>
+  <tr><td>09:00–12:00</td><td><abbr title="Focused uninterrupted work time">Deep work</abbr> — letters, proposals, trackers, UN documents</td></tr>
+  <tr><td>12:00–13:00</td><td>Follow-up hour — clear every message due today</td></tr>
+  <tr><td>13:00–16:00</td><td>Operations — programs, staff support, meetings</td></tr>
+  <tr><td>16:00–17:00</td><td>Closing routine — update trackers, file evidence, write tomorrow's Top 3</td></tr></table>
+  <h3>Quick Jump</h3>
+  <div class="qjump">
+    <a href="#handbook">📘 Handbook<em>All 14 sections</em></a>
+    <a href="#readiness">✅ Readiness<em>Program checklist</em></a>
+    <a href="#resources">📦 Resources<em>Gaps to fill</em></a>
+    <a href="#glossary">📖 Glossary<em>Every acronym</em></a>
+  </div>
+</section>
+
+<!-- ================= HANDBOOK ================= -->
+<section class="page" id="handbook">
+  <h2 class="pt">Operations Handbook</h2>
+  <p class="lede">All 14 sections — tap a chip to jump.</p>
+  <div class="chips">
+    <a href="#h-s1">1 Mandate</a><a href="#h-s2">2 Snapshot</a><a href="#h-s3">3 Asset Map</a><a href="#h-s4">4 Rhythm</a><a href="#h-s5">5 Founder's Office</a><a href="#h-s6">6 Relationships</a><a href="#h-s7">7 Programs</a><a href="#h-s8">8 Fundraising</a><a href="#h-s9">9 UN Track</a><a href="#h-s10">10 Visibility</a><a href="#h-s11">11 KPIs</a><a href="#h-s12">12 Roadmap</a><a href="#h-s13">13 Hard Times</a><a href="#h-s14">14 Templates</a>
+  </div>
+
+  <div class="card" id="h-s1"><h3>Section 1 — The Mandate</h3>
+  <p>You are the <b>Chief of Staff</b> — the right hand of the Executive Director, H.E. Amb. Rev. Dr. Abena Tay. She carries vision, voice and relationships; <b>you carry the system</b>: turning vision into schedules, documents, follow-ups, programs and measurable results.</p>
+  <div class="co"><b class="tag">One-line job description</b>Protect the Founder's time, run the Foundation's machinery, convert every activity into recorded, measurable progress.</div>
+  <h4>You decide alone:</h4><ul class="pl"><li>Daily scheduling &amp; calendar management</li><li>Task assignment to staff/volunteers</li><li>Follow-ups with partners &amp; funders</li><li>Filing, records, documentation systems</li><li>Drafting letters &amp; responses (she approves before sending)</li></ul>
+  <h4>Needs her sign-off:</h4><ul class="pl"><li>Any spending or financial commitment</li><li>Signing contracts or <abbr title="Memorandum of Understanding — a partnership agreement document">MOUs</abbr></li><li>Public statements, press interviews</li><li>New program launches/closures</li><li>Anything involving her name, image or voice</li></ul>
+  <h4>The Ten Core Duties</h4>
+  <table><tr><th>#</th><th>Duty</th></tr>
+  <tr><td>1</td><td><b>Operations command</b> — nothing falls through</td></tr>
+  <tr><td>2</td><td><b>Founder's office</b> — her calendar, movements, bookings, briefings</td></tr>
+  <tr><td>3</td><td><b>Partnership pipeline</b> — tracked, followed up, never forgotten</td></tr>
+  <tr><td>4</td><td><b>Fundraising coordination</b> — letters, proposals, deadlines</td></tr>
+  <tr><td>5</td><td><b>UN &amp; diplomatic track</b> — ECOSOC plan kept moving</td></tr>
+  <tr><td>6</td><td><b>Visibility operations</b> — media monitoring, LinkedIn, EPK</td></tr>
+  <tr><td>7</td><td><b>Program oversight</b> — delivered with evidence</td></tr>
+  <tr><td>8</td><td><b>Records &amp; accountability</b> — retrievable in 60 seconds</td></tr>
+  <tr><td>9</td><td><b>KPI reporting</b> — monthly scorecard to Founder</td></tr>
+  <tr><td>10</td><td><b>Problem-solving</b> — calm protocols for hard days</td></tr></table>
+  <h4>Success picture</h4>
+  <table><tr><th>When</th><th>What true</th></tr>
+  <tr><td>30 days</td><td>Systems live: calendar owned, register built, alerts running, baseline numbers captured, first monthly report delivered</td></tr>
+  <tr><td>90 days</td><td>UN Track 1 packets delivered; grant folder complete; 3+ funder follow-ups became conversations; one program executed flawlessly with evidence</td></tr>
+  <tr><td>1 year</td><td>ECOSOC submission filed; growth in every KPI; Foundation runs on rhythm; Founder free for vision &amp; high-level relationships</td></tr></table></div>
+
+  <div class="card" id="h-s2"><h3>Section 2 — Foundation Snapshot</h3>
+  <table><tr><th>Item</th><th>Detail</th></tr>
+  <tr><td>Legal name</td><td><b>Abena Tay Foundation <abbr title="Limited by Guarantee — the company type used for NGOs in Ghana">LBG</abbr></b>, registered NGO (Certificate of Incorporation)</td></tr>
+  <tr><td>Founder / ED</td><td>H.E. Amb. Rev. Dr. Abena Tay — UN Ambassador for Peace</td></tr>
+  <tr><td>Legacy root</td><td><abbr title="Child in Need — the founder's first foundation, started in 1997">CIN</abbr> Foundation est. <b>1997</b> — proves 25+ years continuous operation (critical for UN accreditation)</td></tr>
+  <tr><td>Faith arm</td><td>Abena Tay Ministries — abenatay.org</td></tr>
+  <tr><td>NPOS profile</td><td><abbr title="Non-Profit Organisations Secretariat — Ghana's NGO registry under the Ministry of Gender">NPOS</abbr>: npos.mogcsp.gov.gh/npos/abena-tay-foundation/</td></tr>
+  <tr><td>Core SDGs</td><td>SDG 3 Health · 4 Education · 5 Gender · 16 Peace/Justice (+1, 8)</td></tr>
+  <tr><td>Geography</td><td>Ga East Municipality · Nsawam prison outreach · Greater Accra</td></tr>
+  <tr><td>Award</td><td>Ghana's Most Outstanding Female in Philanthropy (MyJoyOnline)</td></tr></table>
+  <h4>Programs</h4>
+  <table><tr><th>Program</th><th>Beneficiaries</th><th>SDGs</th></tr>
+  <tr><td>Healing Circles (girls' trauma counseling)</td><td>Adolescent girls</td><td>3,4,5</td></tr>
+  <tr><td>Menstrual hygiene campaigns</td><td>Schoolgirls</td><td>3,4,5</td></tr>
+  <tr><td>Prison counseling &amp; rehab (Nsawam)</td><td>Inmates</td><td>16,3</td></tr>
+  <tr><td>Widows &amp; single mothers empowerment</td><td>Women</td><td>1,5,8</td></tr>
+  <tr><td>School safety &amp; youth programs</td><td>Students</td><td>3,4,16</td></tr>
+  <tr><td><abbr title="Young Girls Development Bank — ATF savings & development program for girls">YGDB</abbr></td><td>Young girls</td><td>1,4,5,8</td></tr>
+  <tr><td>Community &amp; faith development</td><td>Communities</td><td>All</td></tr></table>
+  <div class="co blue"><b class="tag">Language rule</b>Numbers, never superlatives. Say "Delivered psychosocial support to X inmates (SDG 16)". Never "the best humanitarian in Africa".</div></div>
+
+  <div class="card" id="h-s3"><h3>Section 3 — Where Everything Lives</h3>
+  <p><b>Private vault</b> (invite-only): github.com/paulhungo/atf — all master files.<br>
+  <b>Secret live site</b> (link-only, invisible to Google): paulhungo.github.io/xq7k-m2p9-hub/<br>
+  <b>Master Dossier</b> (this PC): Documents → AbenaTay-MasterDossier (9 documents + PDF).<br>
+  <b>This platform</b>: your new secret app. Full clickable list in the <a href="#assets">Asset Map page</a>.</p></div>
+
+  <div class="card" id="h-s4"><h3>Section 4 — Operating Rhythm</h3>
+  <p>See the <b>Today</b> page — it shows today's rhythm automatically. Weekly themes: Mon Planning · Tue Partnerships · Wed Programs · Thu Visibility · Fri Accountability. Monthly close (last working day) + quarterly review checklists are in Section 14 templates and your Google Calendar pack.</p></div>
+
+  <div class="card" id="h-s5"><h3>Section 5 — Founder's Office</h3>
+  <h4>Calendar rules</h4><ul class="pl"><li>One calendar — nothing confirmed until it is IN the calendar and she has seen it</li><li>Protect her focus blocks (ministry, rest, family); decline gracefully on her behalf</li><li>Every Friday: present next week's movement plan for approval</li></ul>
+  <h4>Movement Card — fill for EVERY engagement</h4>
+  <table><tr><th>Field</th></tr><tr><td>Date &amp; time</td></tr><tr><td>Event &amp; organizer</td></tr><tr><td>Venue &amp; travel plan</td></tr><tr><td>Dress code / theme</td></tr><tr><td>Who accompanies her</td></tr><tr><td>Materials needed (EPK, speech, gifts)</td></tr><tr><td>Who she meets (names/titles)</td></tr><tr><td>Briefing note attached?</td></tr></table>
+  <h4>Briefing card (night before — max 5 bullets)</h4><ul class="pl"><li>WHO she meets (names, titles, what they want)</li><li>WHY she is there (one goal)</li><li>WHAT she says (key message + one story)</li><li>WHAT to avoid (sensitive topics)</li><li>WHAT happens after (photo, next step, follow-up owner)</li></ul>
+  <h4>Booking pipeline</h4><ol class="pl"><li>Inquiry logged → 2. Availability checked → 3. Founder confirms → 4. <abbr title="Electronic Press Kit — a polished PDF with bio, topics, photos and video links used to secure speaking engagements">EPK</abbr> sent → 5. Prep brief 3 days before → 6. Delivery + capture evidence → 7. Thank-you within 48h, archive recording</ol>
+  <h4>Protocol quick reference</h4><ul class="pl"><li>Written: H.E. Amb. Rev. Dr. Abena Tay · Spoken: "Her Excellency, Ambassador Reverend Dr. Abena Tay"</li><li>Arrive 15–30 min early; you manage her entrance</li><li>Gifts: log in movement card · Press at events: route through you</li></ul></div>
+
+  <div class="card" id="h-s6"><h3>Section 6 — Relationship Register Rules</h3>
+  <ul class="pl"><li>One row per contact; update same day as any interaction</li><li>Follow-up dates are sacred — a promise made is a row with a date</li><li>External messages answered within 24 hours ("received, full reply by [date]")</li><li>Cadence after sending anything important: nudge day 7 → day 14 → monthly, log each nudge</li></ul>
+  <div class="co green"><b class="tag">Golden rule</b>People forgive slowness; they never forget silence.</div>
+  <p>The pre-loaded stakeholder map lives on the <a href="#people">Relationships page</a>.</p></div>
+
+  <div class="card" id="h-s7"><h3>Section 7 — Program &amp; Event Playbook</h3>
+  <h4>T-minus 4 weeks — Planning</h4><ul class="pl"><li>ONE goal + target numbers (e.g., "200 schoolgirls, 4 schools")</li><li>Budget drafted → Founder approval → funds confirmed</li><li>Date/venue locked; permissions sought (schools, prisons, assembly)</li><li>Invitations out; registration method open + tracker started</li></ul>
+  <h4>T-minus 2 weeks — Build</h4><ul class="pl"><li>Materials ordered · Run sheet hour-by-hour · Roles assigned (MC, registration desk, photography, logistics, safety)</li><li>Media invited; press release drafted; confirmations re-sent</li></ul>
+  <h4>T-minus 3 days — Lock</h4><ul class="pl"><li>Final headcount · Materials physically checked · Team briefed · Founder briefing card delivered · Backups (rain, power, transport, no-show speaker)</li></ul>
+  <h4>Evidence capture (non-negotiable)</h4><ul class="pl"><li>Signed attendance sheet with counts</li><li>Photos (wide, action, group) WITH consent — minors need guardian/school consent</li><li>Video clips 30–60s · Receipts filed same week</li><li>Numbers recorded SAME DAY: beneficiaries reached, items distributed</li></ul>
+  <h4>T-plus 1 week — Convert</h4><ul class="pl"><li>Post-event report within 7 days · Thank-yous · SDG translation into Impact Log · Media published · Lessons noted</li></ul>
+  <p>Instant readiness check: <a href="#readiness">Program Readiness page</a>.</p></div>
+
+  <div class="card" id="h-s8"><h3>Section 8 — Fundraising Pipeline &amp; Opportunity Radar</h3>
+  <p><span class="badge b-b">1 Identified</span> → <span class="badge b-b">2 Letter Sent</span> → <span class="badge b-y">3 In Conversation</span> → <span class="badge b-y">4 Proposal/LOI In</span> → <span class="badge b-g">5 Decision</span> → <span class="badge b-g">6 Won</span> / <span class="badge b-r">Parked</span></p>
+  <p>Full status board on the <a href="#people">Relationships page</a>. Update every Tuesday.</p>
+  <h4>Plug-and-play grant folder</h4><ul class="pl"><li>Certificate of Incorporation (certified copy, scanned)</li><li>NPOS registration printout · Constitution (fix gaps first!)</li><li>CIN 1997 registration (longevity proof)</li><li>Board list with roles · Hierarchy chart (Founder→Board→Staff)</li><li>Recent financial statement · Bank account details letter</li><li>Photo gallery (with consent) · Impact summary with NUMBERS</li><li>Two reference letters · Founder's EPK</li></ul>
+  <h4>Opportunity radar — monthly scan (first Tuesday)</h4><ul class="pl"><li>UN Partner Portal calls · US Embassy Accra Self-Help windows</li><li>STAR Ghana / WACSI / AWDF newsletters · Corporate CSR budgets (Q4–Q1)</li><li>International days: IWD Mar 8 · Menstrual Hygiene Day May 28 · Day of the Girl Oct 11 · 16 Days of Activism Nov 25–Dec 10</li></ul>
+  <div class="co red"><b class="tag">Iron rule</b>An opportunity without a deadline does not exist.</div></div>
+
+  <div class="card" id="h-s9"><h3>Section 9 — UN &amp; Diplomatic Track</h3>
+  <h4>Track 1 — Diplomatic Partnership Packet (Accra NGO partners)</h4><ul class="pl"><li>Pitch letter on letterhead + Certificate of Incorporation + NPOS printout + Founder's CV</li><li>Packet 1 → ABANTU, Baatsona (Spintex Road) — envelope: Regional Programme Manager</li><li>Packet 2 → NORSAAC, Takako Heights 3rd Floor, G12 Boundary Rd, East Legon — envelope: Head of Program Quality &amp; Partnership</li><li>Hand-deliver, log date + receiver, 14-day follow-up</li></ul>
+  <h4>Track 2 — UN iCSO / ECOSOC registration</h4>
+  <table><tr><th>#</th><th>Mandatory doc</th><th>Status</th></tr>
+  <tr><td>1</td><td>Foundation Constitution (structure + board selection)</td><td>⚠ Pending — fix gaps from Constitution Gap Review</td></tr>
+  <tr><td>2</td><td>CIN 1997 longevity proof</td><td>⚠ Pending — locate &amp; scan originals</td></tr>
+  <tr><td>3</td><td>Financial accountability ledger</td><td>⚠ Pending — compile</td></tr>
+  <tr><td>4</td><td>Hierarchy chart (Founder→Board→Staff)</td><td>⚠ Pending — draw</td></tr></table>
+  <p>Portals: esango.un.org/civilsociety · unpartnerportal.org. The 200-word financial narrative draft is in Dossier 04.</p>
+  <h4>Agency talking points</h4><ul class="pl"><li><b>UNICEF:</b> "Trauma-informed psychosocial support aligned with UNICEF child protection frameworks (SDG 3, 4, 16)"</li><li><b>UN Women:</b> "Gender equality programming grounded in grassroots women's networks (SDG 5)"</li><li><b>UNFPA:</b> "Community-level delivery channels reaching adolescent girls mainstream programs miss"</li></ul>
+  <h4>Free UN certifications</h4><ul class="pl"><li>UN CC:Learn (unccelearn.org) · UNICEF Agora (agora.unicef.org) · OpenWHO (openwho.org) · UNITAR (unitar.org) · SDG Academy (sdgacademy.org)</li><li>Add each to LinkedIn under Licenses &amp; Certifications with credential link</li></ul></div>
+
+  <div class="card" id="h-s10"><h3>Section 10 — Visibility Operations</h3>
+  <h4>Daily (5 min)</h4><ul class="pl"><li>Google Alerts scan (3 queries) → new mention? add row to media dossier (Date·House·Theme·Reach·Link·Type)</li></ul>
+  <h4>Weekly rhythm</h4><ul class="pl"><li>Mon: LinkedIn post (01 kit) · Wed: video clip (05 rules) · Thu: engagement round on partner/UN/funder pages (06 kit) · Fri: media dossier updated, next week queued</li></ul>
+  <h4>Monthly/Quarterly</h4><ul class="pl"><li>Directory listings (04 boilerplate) · 3 backlink requests/month (06 kit)</li><li>EPK refresh quarterly · Knowledge panel check quarterly (03 guide)</li><li>Always use official identity standards (07 kit) — exact titles, exact bios</li></ul>
+  <div class="co blue"><b class="tag">Security</b>Internal tools (vault, secret sites) NEVER appear in public bios/posts. Public face = abenatay.org + socials only.</div></div>
+
+  <div class="card" id="h-s11"><h3>Section 11 — KPI Scorecard</h3>
+  <p><abbr title="Key Performance Indicators — the specific numbers that show whether we are succeeding">KPIs</abbr> = how success is measured. Update monthly; review quarterly with Founder.</p>
+  <div class="scroll"><table><tr><th>KPI</th><th>Year-1 target</th></tr>
+  <tr><td>Funding secured (GH₵)</td><td>set with Founder week 1</td></tr>
+  <tr><td>Partnerships formalized (MOU/MOC)</td><td>6</td></tr>
+  <tr><td>Girls reached (all programs)</td><td>1,000</td></tr>
+  <tr><td>Healing Circle sessions held</td><td>24</td></tr>
+  <tr><td>Schools covered</td><td>10</td></tr>
+  <tr><td>Inmates counselled (Nsawam)</td><td>120</td></tr>
+  <tr><td>Widows/single mothers trained</td><td>100</td></tr>
+  <tr><td>YGDB savings accounts opened</td><td>set with Founder</td></tr>
+  <tr><td>Registrations completed (NPOS, ECOSOC docs)</td><td>100%</td></tr>
+  <tr><td>Media mentions captured</td><td>2+/month</td></tr>
+  <tr><td>LinkedIn followers (Founder)</td><td>+50%/year</td></tr>
+  <tr><td>UN certifications earned</td><td>8</td></tr>
+  <tr><td>Events executed with full evidence</td><td>100%</td></tr>
+  <tr><td>Monthly reports delivered on time</td><td>12/12</td></tr></table></div>
+  <div class="co"><b class="tag">Measurement rules</b>Numbers over adjectives · Evidence or it didn't happen · Capture September baseline · Record same day</div></div>
+
+  <div class="card" id="h-s12"><h3>Section 12 — Twelve-Month Roadmap</h3>
+  <div class="scroll"><table><tr><th>Month</th><th>Focus</th><th>Exit test</th></tr>
+  <tr><td><b>SEP</b></td><td>Take Command — handover, asset audit, register built, alerts live, baseline KPIs, targets agreed</td><td>Systems live; targets frozen</td></tr>
+  <tr><td><b>OCT</b></td><td>Readiness — grant folder complete, constitution fixes start, Track 1 packets delivered, first monthly report</td><td>Folder 100%; packets logged</td></tr>
+  <tr><td><b>NOV</b></td><td>Activism campaign (Nov 25 start); ECOSOC 4 docs digitized; Track-1 follow-ups</td><td>Campaign live; docs scanned</td></tr>
+  <tr><td><b>DEC</b></td><td>Year-end thank-yous; annual impact report v1; Q1 review</td><td>Thank-yous sent; report exists</td></tr>
+  <tr><td><b>JAN</b></td><td>iCSO/ECOSOC application submitted; UN Partner Portal profile; Q1 applications out</td><td>ECOSOC application IN</td></tr>
+  <tr><td><b>FEB</b></td><td>YGDB scale-up plan; bank MOU; first 3 school MOUs</td><td>4 MOUs signed</td></tr>
+  <tr><td><b>MAR</b></td><td>IWD flagship event; AWDF/Mastercard escalation; media push</td><td>Flagship + evidence pack</td></tr>
+  <tr><td><b>APR</b></td><td>Mid-cycle program reviews; drop/fix/expand decisions; Q2 funding wave</td><td>Verdict per program</td></tr>
+  <tr><td><b>MAY</b></td><td>Menstrual Hygiene Day May 28 flagship; CSR pad-drive sponsors</td><td>Biggest reach month</td></tr>
+  <tr><td><b>JUN</b></td><td>Mid-year KPI review WITH Founder; H2 adjustments; chase ECOSOC status</td><td>H2 plan agreed</td></tr>
+  <tr><td><b>JUL</b></td><td>MOU renewals; prison program H2 schedule; certifications push</td><td>MOUs current; 4+ certificates</td></tr>
+  <tr><td><b>AUG</b></td><td>Annual report published; Year-2 roadmap; showcase event</td><td>Year 1 closed with proof</td></tr></table></div></div>
+
+  <div class="card" id="h-s13"><h3>Section 13 — Difficult Times Protocol</h3>
+  <h4>Cash crunch</h4><ul class="pl"><li>Triage: committed program promises → critical field needs → admin costs. Cut bottom-up, never break public promises.</li><li>Bridges: phased delivery; board/trusted-partner bridge; accelerate nearest stage-4 opportunity. Communicate EARLY.</li></ul>
+  <h4>Funder goes silent</h4><ul class="pl"><li>Nudge day 7 → day 14 → monthly. Park after two nudges; keep warm (share wins); review parked quarterly.</li></ul>
+  <h4>Program fails</h4><ul class="pl"><li>48-hour blame-free review → lessons documented → playbook adjusted → transparent report to Founder with fix attached.</li></ul>
+  <h4>Reputation attack</h4><ul class="pl"><li>Never respond fast/angry; gather facts (24h). ONE spokesperson: the Founder via approved statement. Correct facts, no fights. Log all.</li></ul>
+  <h4>You are overwhelmed</h4><ul class="pl"><li><abbr title="Our filter: does it affect Programs, Income, or the Founder? If not, it waits">PIF filter</abbr>: Programs / Income / Founder — if no, it waits. Delegate with deadline + definition of done. Tell the Founder early.</li></ul></div>
+
+  <div class="card" id="h-s14"><h3>Section 14 — Templates</h3>
+  <h4>Daily Founder brief (≤5 lines)</h4><div class="co">GOOD MORNING MA — TODAY:<br>1. Your schedule: …<br>2. Decisions I need from you: …<br>3. Urgent: …<br>4. Good news: …</div>
+  <h4>Weekly report (Friday)</h4><div class="co">WEEK OF [DATE]<br>Done: • • •<br>Numbers: reach / funds / registrations<br>Next week: • • •<br>Need from you: …</div>
+  <h4>Monthly report (last working day)</h4><div class="co">MONTHLY REPORT — [MONTH]<br>1. Wins with numbers (top 5)<br>2. Scorecard snapshot vs targets<br>3. Money: received / pledged / pending<br>4. Pipeline movement<br>5. Next month top 3<br>6. Risks needing decision</div>
+  <h4>Post-event report (within 7 days)</h4><div class="co">EVENT REPORT — [name, date]<br>Attendance: registered __ / attended __<br>Distribution: … Highlights: …<br>Evidence: photos __ sheets __ receipts __<br>SDG statement: "Provided … to X (SDG _)"<br>Lessons: repeat ___ / change ___<br>Cost: budget __ vs actual __</div>
+  <h4>Meeting notes</h4><div class="co">MEETING NOTES — [date]<br>Attendees / Purpose / Decisions (1,2,3) / Actions WHO-WHAT-BY WHEN / Next meeting<br>Filed: YYYY-MM-DD_Name_Notes</div>
+  <h4>Filing convention &amp; folders</h4><ul class="pl"><li>Name files <b>YYYY-MM-DD_Event_or_Partner_Type</b> — dates sort themselves; never "final_final2"</li><li>Folders: 01-Letters-Sent · 02-Evidence · 03-Finance · 04-Media · 05-Reports · 06-Certificates · backup monthly</li></ul>
+  <h4>Security SOP</h4><ul class="pl"><li>Internal tools never appear publicly · secret links shared individually only</li><li>Minors' data stored securely, need-to-know only</li><li>Passwords in a password manager — never chat, never paper</li></ul></div>
+</section>
+
+<!-- ================= ASSET MAP ================= -->
+<section class="page" id="assets">
+  <h2 class="pt">🗺️ Asset Map</h2>
+  <p class="lede">Everything, one tap away. Links marked 🔒 need your GitHub login.</p>
+  <h3>Live Secret Sites (no login needed — share individually)</h3>
+  <div class="grid">
+    <div class="card">🏠 <b>Main hub</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/" target="_blank" rel="noopener">xq7k-m2p9-hub</a></div>
+    <div class="card">⚡ <b>ATF Command Centre</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/ATF_Command_Centre.html" target="_blank" rel="noopener">Open</a></div>
+    <div class="card">💼 <b>Official Workspace</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/ATF_Official_Workspace.html" target="_blank" rel="noopener">Open</a></div>
+    <div class="card">➕ <b>Extra Command Centre</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/Extra_Command_Centre.html" target="_blank" rel="noopener">Open</a></div>
+    <div class="card">🏦 <b>YGDB Command Centre</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/YGDB_Command_Centre.html" target="_blank" rel="noopener">Open</a></div>
+    <div class="card">✉️ <b>Letter Index (all 20)</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/Letters/00_Letter_Index.html" target="_blank" rel="noopener">Open</a></div>
+    <div class="card">📣 <b>Global Visibility Plan</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/Visibility/00_Global_Visibility_Master_Plan.html" target="_blank" rel="noopener">Open</a></div>
+    <div class="card">💰 <b>Global Funding Pack</b><br><a href="https://paulhungo.github.io/xq7k-m2p9-hub/Letters/00_Global_Funding_and_Partnership_Positioning_Pack.html" target="_blank" rel="noopener">Open</a></div>
+  </div>
+  <h3>Private Vault (GitHub — login required)</h3>
+  <table><tr><th>Asset</th><th>Link</th></tr>
+  <tr><td>🔒 Vault root (all files)</td><td><a href="https://github.com/paulhungo/atf" target="_blank" rel="noopener">github.com/paulhungo/atf</a></td></tr>
+  <tr><td>🔒 Letter index</td><td><a href="https://github.com/paulhungo/atf/blob/main/Letters/00_Letter_Index.html" target="_blank" rel="noopener">Letters/00_Letter_Index.html</a></td></tr>
+  <tr><td>🔒 Constitution Gap Review</td><td><a href="https://github.com/paulhungo/atf/blob/main/Letters/00_Constitution_Gap_and_Positioning_Review.html" target="_blank" rel="noopener">Letters/00_Constitution_Gap…</a></td></tr>
+  <tr><td>🔒 Founder prep checklist</td><td><a href="https://github.com/paulhungo/atf/blob/main/Letters/00_Checklist_What_She_Must_Prepare.html" target="_blank" rel="noopener">Letters/00_Checklist…</a></td></tr>
+  <tr><td>🔒 Visibility library (9 kits)</td><td><a href="https://github.com/paulhungo/atf/tree/main/Visibility" target="_blank" rel="noopener">Visibility/</a></td></tr></table>
+  <h3>On This Computer</h3>
+  <table><tr><th>Asset</th><th>Location</th></tr>
+  <tr><td>Master Dossier (9 docs + PDF)</td><td>Documents → AbenaTay-MasterDossier</td></tr>
+  <tr><td>Handbook (PDF + HTML)</td><td>Desktop &amp; Documents → ATF-Chief-of-Staff</td></tr>
+  <tr><td>Calendar reminder pack</td><td>Desktop → CoS_Reminder_Pack.ics</td></tr>
+  <tr><td>This platform's build files</td><td>Documents → ATF-CoS-Platform</td></tr></table>
+  <h3>Official Public Links</h3>
+  <table><tr><th>Channel</th><th>Address</th></tr>
+  <tr><td>Website</td><td><a href="https://abenatay.org" target="_blank" rel="noopener">abenatay.org</a></td></tr>
+  <tr><td>NPOS profile</td><td><a href="https://npos.mogcsp.gov.gh/npos/abena-tay-foundation/" target="_blank" rel="noopener">npos.mogcsp.gov.gh/npos/abena-tay-foundation</a></td></tr>
+  <tr><td>Facebook</td><td><a href="https://www.facebook.com/abenatayministries/" target="_blank" rel="noopener">facebook.com/abenatayministries</a></td></tr>
+  <tr><td>Instagram</td><td>@lady.rev_abena</td></tr></table>
+</section>
+
+<!-- ================= PEOPLE ================= -->
+<section class="page" id="people">
+  <h2 class="pt">🤝 Relationships &amp; Funders</h2>
+  <p class="lede">Stakeholder map + pipeline board. Update Tuesdays.</p>
+  <h3>Funder / Institution Status Board</h3>
+  <div class="scroll"><table><tr><th>Institution</th><th>Approach</th><th>Stage</th><th>Next action + date</th></tr>
+  <tr><td>Mastercard Foundation</td><td>Introduction letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>African Women's Development Fund (<abbr title="African Women's Development Fund — grantmaker for women's organizations in Africa">AWDF</abbr>)</td><td>Expression of Interest</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>STAR Ghana Foundation</td><td>Introduction letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>Global Fund for Children</td><td><abbr title="Letter of Intent/Interest — a short first application">LOI</abbr> cover letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>US Embassy Self-Help Program</td><td>Application letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>WACSI</td><td>Match-funding interest</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td><abbr title="Ministry of Gender, Children and Social Protection — Ghana">MoGCSP</abbr></td><td>Concept note + cover</td><td><span class="badge b-b">2 Submitted</span></td><td></td></tr>
+  <tr><td>Ministry of Finance</td><td>Positioning letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>Dept. Social Welfare / NPOS</td><td>Registration letter</td><td><span class="badge b-y">In process</span></td><td></td></tr>
+  <tr><td>Registrar General's Dept.</td><td>Certificate verification</td><td><span class="badge b-y">In process</span></td><td></td></tr>
+  <tr><td>Bank of Ghana</td><td>Informational letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>UN Resident Coordinator (Ghana)</td><td>Introductory letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>ABANTU (Baatsona, Spintex Rd)</td><td>Partnership letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>NORSAAC (East Legon)</td><td>Partnership letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>WDB GH Ltd</td><td>Partnership letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>CUA — Last Mile Provider</td><td>Registration letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>Partner bank (girls' savings)</td><td>Partnership letter</td><td><span class="badge b-b">2 Letter sent</span></td><td></td></tr>
+  <tr><td>Schools (<abbr title="Memorandum of Understanding — partnership agreement">MOU</abbr> pipeline)</td><td>Template ready</td><td><span class="badge b-b">1 Identified</span></td><td></td></tr>
+  <tr><td>Corporate <abbr title="Corporate Social Responsibility — company community-giving budgets">CSR</abbr> targets</td><td>Template ready</td><td><span class="badge b-b">1 Identified</span></td><td></td></tr></table></div>
+  <h3>Stakeholder Categories</h3>
+  <div class="grid">
+    <div class="card"><b>🏛 Government</b><br><ul class="pl"><li>MoGCSP · Ministry of Finance</li><li>Social Welfare/NPOS · Registrar General</li><li>Bank of Ghana</li></ul></div>
+    <div class="card"><b>🤝 Partners</b><br><ul class="pl"><li>ABANTU · NORSAAC</li><li>WDB GH Ltd · CUA</li></ul></div>
+    <div class="card"><b>🌍 UN System</b><br><ul class="pl"><li>UN Resident Coordinator</li><li>UNICEF · UN Women · UNFPA</li><li>iCSO/<abbr title="Economic and Social Council — the UN body that grants NGOs consultative status">ECOSOC</abbr> NGO Branch</li></ul></div>
+    <div class="card"><b>📰 Media</b><br><ul class="pl"><li>MyJoyOnline · Graphic Online</li><li>Modern Ghana · YouTube</li></ul></div>
+    <div class="card"><b>🏦 Financial/Education</b><br><ul class="pl"><li>Partner bank (YGDB savings)</li><li>Schools MOU pipeline</li></ul></div>
+  </div>
+  <div class="co green"><b class="tag">Rules</b>Reply within 24h even if just "received, full answer by [date]" · Nudge day 7/14 then monthly · Log every contact same day.</div>
+</section>
+
+<!-- ================= RESOURCES ================= -->
+<section class="page" id="resources">
+  <h2 class="pt">📦 Resources &amp; Gaps</h2>
+  <p class="lede">What the Foundation needs to run smoothly — and what's still missing. 🔴 Priority · ⚠️ Gap · ✅ Ready</p>
+  <h3>💻 Digital Tools</h3>
+  <div class="scroll"><table><tr><th>Resource</th><th>Why needed</th><th>Status</th></tr>
+  <tr><td>Professional email (name@abenatay.org or Gmail)</td><td>Credible communication with funders</td><td><span class="badge b-r">🔴 Priority</span></td></tr>
+  <tr><td>Google Alerts (3 queries)</td><td>Know every media mention instantly</td><td><span class="badge b-r">🔴 Setup guide ready → Setup page</span></td></tr>
+  <tr><td>Google Drive folder structure</td><td>Cloud filing accessible from phone</td><td><span class="badge b-y">⚠️ Set up week 1</span></td></tr>
+  <tr><td>Password manager (Bitwarden — free)</td><td>Never lose a login again</td><td><span class="badge b-y">⚠️ Guide ready</span></td></tr>
+  <tr><td>Canva (free for nonprofits)</td><td>Flyers, banners, EPK design</td><td><span class="badge b-y">⚠️ Apply with NPOS cert</span></td></tr>
+  <tr><td>Accounting spreadsheet/template</td><td>Track income &amp; spending = donor trust</td><td><span class="badge b-r">🔴 Priority</span></td></tr>
+  <tr><td>Cloud/external backup routine</td><td>Evidence must never be lost</td><td><span class="badge b-y">⚠️ Monthly habit</span></td></tr>
+  <tr><td>Zoom/Meet account</td><td>Virtual partner &amp; UN meetings</td><td><span class="badge b-y">⚠️ Free tier OK</span></td></tr></table></div>
+  <h3>🏢 Physical / Material</h3>
+  <div class="scroll"><table><tr><th>Resource</th><th>Why needed</th><th>Status</th></tr>
+  <tr><td>Laptop for office work</td><td>Daily operations</td><td><span class="badge b-y">⚠️ Confirm what exists</span></td></tr>
+  <tr><td>Printer/scanner</td><td>Letters, receipts, certificates copies</td><td><span class="badge b-y">⚠️ Gap</span></td></tr>
+  <tr><td>Camera / good phone + tripod</td><td>Evidence capture at events</td><td><span class="badge b-y">⚠️ Gap</span></td></tr>
+  <tr><td>PA system (borrow/partner)</td><td>Events &amp; outdoor programs</td><td><span class="badge b-y">⚠️ Borrow per event initially</span></td></tr>
+  <tr><td>Branded banner / roll-up</td><td>Professional look at every event</td><td><span class="badge b-y">⚠️ One-time cost</span></td></tr>
+  <tr><td>Pad stock storage box</td><td>Menstrual hygiene program supplies</td><td><span class="badge b-y">⚠️ Gap</span></td></tr>
+  <tr><td>External hard drive</td><td>Evidence backup</td><td><span class="badge b-y">⚠️ Cheap, critical</span></td></tr></table></div>
+  <h3>📜 Systems &amp; Policies</h3>
+  <div class="scroll"><table><tr><th>Resource</th><th>Why needed</th><th>Status</th></tr>
+  <tr><td>Child protection &amp; safeguarding policy</td><td>REQUIRED by serious funders &amp; schools (we work with minors!)</td><td><span class="badge b-r">🔴 Must create</span></td></tr>
+  <tr><td>Consent forms (photos/minors)</td><td>Legal safety for evidence photos</td><td><span class="badge b-r">🔴 Must create</span></td></tr>
+  <tr><td>Financial controls (two signatories, receipt book)</td><td>Donor confidence + ECOSOC ledger requirement</td><td><span class="badge b-r">🔴 Must confirm</span></td></tr>
+  <tr><td>Volunteer agreement template</td><td>Clear expectations for helpers</td><td><span class="badge b-y">⚠️ Template to draft</span></td></tr>
+  <tr><td>Simple M&amp;E framework <small>(<abbr title="Monitoring and Evaluation — systematically counting and checking results">M&amp;E</abbr>: count participants, outcomes per activity)</small></td><td>Impact numbers for reports</td><td><span class="badge b-y">⚠️ Covered by KPI scorecard</span></td></tr>
+  <tr><td>Complaints/feedback procedure</td><td>Accountability to communities</td><td><span class="badge b-y">⚠️ Simple 1-pager</span></td></tr></table></div>
+  <h3>👥 People</h3>
+  <div class="scroll"><table><tr><th>Role</th><th>Why</th><th>Status</th></tr>
+  <tr><td>Confirmed board member list (names + roles)</td><td>Required for ECOSOC + grant folder</td><td><span class="badge b-r">🔴 Get from Founder</span></td></tr>
+  <tr><td>Photographer (volunteer/on-call)</td><td>Evidence quality</td><td><span class="badge b-y">⚠️ Recruit</span></td></tr>
+  <tr><td>Volunteer coordinator contact list</td><td>Event staffing</td><td><span class="badge b-y">⚠️ Compile month 1</span></td></tr></table></div>
+  <div class="co red"><b class="tag">Week-one shopping list (cheapest first)</b>Google Alerts (free) · Bitwarden (free) · Canva nonprofit application (free) · external hard drive (~GH₵300) · consent form + safeguarding policy drafts (draft with Ox).</div>
+</section>
+
+<!-- ================= READINESS ================= -->
+<section class="page" id="readiness">
+  <h2 class="pt">✅ Program Readiness Check</h2>
+  <p class="lede">If a program starts RIGHT NOW — is everything set? Tick as you prepare each event. Ticks save on this device.</p>
+  <h3>Foundation Level (once)</h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="r1"><span><b>Safeguarding policy</b> exists &amp; Founder approved</span></label>
+    <label class="ck"><input type="checkbox" id="r2"><span><b>Consent forms</b> printed (minors' photos)</span></label>
+    <label class="ck"><input type="checkbox" id="r3"><span><b>Budget template</b> + accounting sheet ready</span></label>
+    <label class="ck"><input type="checkbox" id="r4"><span><b>Grant folder</b> complete (certificates, board list, financials)</span></label>
+    <label class="ck"><input type="checkbox" id="r5"><span><b>Evidence kit</b>: attendance sheet books, camera/phone space, receipt book</span></label>
+  </div>
+  <h3>Per-Event Level (every program)</h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="e1"><span><b>Goal + numbers</b> defined (one sentence: who, how many, what result)</span></label>
+    <label class="ck"><input type="checkbox" id="e2"><span><b>Budget approved</b> by Founder &amp; funds confirmed</span></label>
+    <label class="ck"><input type="checkbox" id="e3"><span><b>Date &amp; venue</b> locked, permissions obtained (school/district/prison)</span></label>
+    <label class="ck"><input type="checkbox" id="e4"><span>In <b>Founder's calendar</b> + movement card filled + briefing card scheduled</span></label>
+    <label class="ck"><input type="checkbox" id="e5"><span><b>Team roles</b> assigned: MC · registration desk · photographer · logistics · safety</span></label>
+    <label class="ck"><input type="checkbox" id="e6"><span><b>Materials</b> ordered AND physically counted 3 days before</span></label>
+    <label class="ck"><input type="checkbox" id="e7"><span><b>Registration tracker</b> open; invitations &amp; confirmations sent</span></label>
+    <label class="ck"><input type="checkbox" id="e8"><span><b>Run sheet</b> written hour-by-hour; backups planned (rain/power/transport/speaker)</span></label>
+    <label class="ck"><input type="checkbox" id="e9"><span><b>Media invited</b>; press release drafted</span></label>
+    <label class="ck"><input type="checkbox" id="e10"><span><b>After-plan</b>: who writes report, sends thank-yous, files evidence within 7 days</span></label>
+  </div>
+  <div class="co red"><b class="tag">Rule</b>No tick, no go. Any unticked 🔴 item = postpone, don't improvise.</div>
+</section>
+
+<!-- ================= LETTERS ================= -->
+<section class="page" id="letters">
+  <h2 class="pt">✉️ Letters Audit</h2>
+  <p class="lede">What exists in the vault, what's missing, what to write next. All existing letters: vault → Letters/ or secret site Letter Index.</p>
+  <h3>Existing Letters (23 items in vault)</h3>
+  <div class="scroll"><table><tr><th>#</th><th>Letter</th><th>To</th><th>Purpose</th></tr>
+  <tr><td>01</td><td>Concept Note Cover Letter</td><td>MoGCSP</td><td>Ministry partnership entry</td></tr>
+  <tr><td>02</td><td>Cover Copy Letter</td><td>Ministry of Finance</td><td>Fiscal positioning</td></tr>
+  <tr><td>03</td><td>NPOS Letter</td><td>Social Welfare</td><td>NGO registration status</td></tr>
+  <tr><td>04</td><td>Certificate Verification</td><td>Registrar General</td><td>Confirm incorporation</td></tr>
+  <tr><td>05</td><td>Informational Letter</td><td>Bank of Ghana</td><td>Financial legitimacy</td></tr>
+  <tr><td>06</td><td>Last Mile Registration</td><td>CUA</td><td>Distribution partnership</td></tr>
+  <tr><td>07</td><td>Partnership Letter</td><td>WDB GH Ltd</td><td>Women's dev partnership</td></tr>
+  <tr><td>08</td><td>Introductory Letter</td><td>UN Resident Coordinator</td><td>Diplomatic door</td></tr>
+  <tr><td>09</td><td>Partnership Letter</td><td>ABANTU</td><td>NGO partner + UN route</td></tr>
+  <tr><td>10</td><td>Partnership Letter</td><td>NORSAAC</td><td>NGO partner + UN route</td></tr>
+  <tr><td>12</td><td>LOI Cover Letter</td><td>Global Fund for Children</td><td>Funding</td></tr>
+  <tr><td>13</td><td>Self-Help Letter</td><td>US Embassy</td><td>Community grants</td></tr>
+  <tr><td>14</td><td>Expression of Interest</td><td>AWDF</td><td>Women's funding</td></tr>
+  <tr><td>15</td><td>Introduction Letter</td><td>Mastercard Foundation</td><td>Major funding door</td></tr>
+  <tr><td>16</td><td>Match Funding Interest</td><td>WACSI</td><td>Capacity + match funds</td></tr>
+  <tr><td>17</td><td>Introduction Letter</td><td>STAR Ghana</td><td>Funding</td></tr>
+  <tr><td>18</td><td>Girls Savings Partnership</td><td>Partner bank</td><td>YGDB banking</td></tr>
+  <tr><td>19</td><td>MOU Request Letter</td><td>Schools</td><td>School access</td></tr>
+  <tr><td>20</td><td>CSR Partnership Letter</td><td>Corporates</td><td>Local sponsorship</td></tr>
+  <tr><td>—</td><td>Letterhead Template</td><td>—</td><td>Use for ALL new letters</td></tr>
+  <tr><td>00</td><td>Constitution Gap Review</td><td>Internal</td><td>Fix before ECOSOC</td></tr>
+  <tr><td>00</td><td>Founder Prep Checklist</td><td>Internal</td><td>Docs she must gather</td></tr>
+  <tr><td>00</td><td>Funding Positioning Pack</td><td>Internal</td><td>Funder strategy</td></tr></table></div>
+  <h3>Missing Letters — To Create (priority order)</h3>
+  <div class="scroll"><table><tr><th>Priority</th><th>Missing template</th><th>Use for</th></tr>
+  <tr><td><span class="badge b-r">🔴 Now</span></td><td><b>Follow-up / nudge letter</b></td><td>Day-7/day-14 nudges to every funder — needed THIS MONTH</td></tr>
+  <tr><td><span class="badge b-r">🔴 Now</span></td><td><b>Thank-you letter (partner/funder)</b></td><td>After events, after any help received</td></tr>
+  <tr><td><span class="badge b-y">⚠️ Soon</span></td><td><b>Sponsorship request letter (event-specific)</b></td><td>May 28 &amp; Mar 8 flagships</td></tr>
+  <tr><td><span class="badge b-y">⚠️ Soon</span></td><td><b>Press release template</b></td><td>Every major event announcement</td></tr>
+  <tr><td><span class="badge b-y">⚠️ Soon</span></td><td><b>MOU draft document</b></td><td>We have the REQUEST letter but no actual MOU template for banks/schools</td></tr>
+  <tr><td><span class="badge b-y">⚠️ Soon</span></td><td><b>Donation acknowledgment/receipt</b></td><td>Professionalism for every gift received</td></tr>
+  <tr><td><span class="badge b-b">Later</span></td><td>Annual report cover letter</td><td>December impact report distribution</td></tr>
+  <tr><td><span class="badge b-b">Later</span></td><td>Full grant proposal skeleton</td><td>When a funder requests full proposal beyond LOI</td></tr></table></div>
+  <div class="co blue"><b class="tag">How to produce these</b>Ask Ox in chat: "Draft the follow-up letter to Mastercard" — Ox drafts on letterhead format, Founder approves, you send &amp; log. Each finished template gets saved to vault Letters/ so it becomes reusable forever.</div>
+</section>
+
+<!-- ================= PROBLEMS ================= -->
+<section class="page" id="problems">
+  <h2 class="pt">🧩 Problems &amp; Solutions Log</h2>
+  <p class="lede">Everything solved stays recorded here; open problems get owners and dates.</p>
+  <h3>✅ Solved</h3>
+  <div class="scroll"><table><tr><th>Problem</th><th>Solution applied</th><th>When</th></tr>
+  <tr><td>Command centers exposed on Google under Paul's name</td><td>Vault repo made private; old Pages site killed; removal requests queued</td><td>Aug 2026 ✅</td></tr>
+  <tr><td>No private way to share site links</td><td>Secret unguessable site built (xq7k-m2p9-hub) with Google blocked</td><td>Aug 2026 ✅</td></tr>
+  <tr><td>No central home for documents</td><td>Private vault organized (command centers, letters, visibility kits)</td><td>Aug 2026 ✅</td></tr>
+  <tr><td>No operations manual</td><td>Chief of Staff Handbook created (PDF + HTML) + this platform</td><td>Aug 2026 ✅</td></tr>
+  <tr><td>No funder tracking</td><td>Pipeline stages + status board (19 approaches mapped)</td><td>Aug 2026 ✅</td></tr>
+  <tr><td>Founder movements managed ad-hoc</td><td>Movement card + briefing card + booking pipeline system</td><td>Aug 2026 ✅</td></tr>
+  <tr><td>No reminders/notifications</td><td>Google Calendar reminder pack imported to phone</td><td>Aug 2026 ✅</td></tr></table></div>
+  <h3>🔴 Open Problems (owners + deadlines)</h3>
+  <div class="scroll"><table><tr><th>Problem</th><th>Needed action</th><th>Owner</th><th>Target</th></tr>
+  <tr><td>Constitution gaps block ECOSOC</td><td>Work through Constitution Gap Review; redraft clauses</td><td>Paul + Founder</td><td>Oct 2026</td></tr>
+  <tr><td>CIN 1997 original documents not digitized</td><td>Locate physical registrations; scan to vault</td><td>Founder provides</td><td>Sep 2026</td></tr>
+  <tr><td>No current financial ledger/statement</td><td>Compile income/spending record (accounting template)</td><td>Paul + Treasurer/Founder</td><td>Oct 2026</td></tr>
+  <tr><td>Hierarchy chart missing</td><td>Draw Founder → Board → Staff diagram</td><td>Paul (after board list)</td><td>Oct 2026</td></tr>
+  <tr><td>Board member list not confirmed/current</td><td>Get names + roles from Founder</td><td>Founder</td><td>Sep 2026</td></tr>
+  <tr><td>Google Alerts not yet activated</td><td>Follow Setup Guide (5 minutes)</td><td>Paul</td><td>Week 1</td></tr>
+  <tr><td>EPK not yet built</td><td>Canva template using Dossier 07 structure</td><td>Paul</td><td>Oct 2026</td></tr>
+  <tr><td>Baseline KPI numbers not captured</td><td>Record starting point of every KPI</td><td>Paul</td><td>Sep 2026</td></tr>
+  <tr><td>Bank account details letter pending</td><td>Request official bank letter</td><td>Paul</td><td>Oct 2026</td></tr></table></div>
+  <div class="co green"><b class="tag">How this log grows</b>Any new problem → tell Ox → it lands here with an owner and date. Solved → moves up top with the solution written down. Nothing gets lost twice.</div>
+</section>
+
+<!-- ================= SETUP GUIDES ================= -->
+<section class="page" id="setup">
+  <h2 class="pt">🛠️ Setup Guides</h2>
+  <p class="lede">Do these once; benefit forever.</p>
+  <h3>Guide 1 — Google Alerts (5 minutes · do first!)</h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="g1"><span><b>1.</b> On phone or PC go to: <b>google.com/alerts</b> and sign in with any Google (Gmail) account</span></label>
+    <label class="ck"><input type="checkbox" id="g2"><span><b>2.</b> In the "Create an alert about…" box type: <b>"Abena Tay"</b> (keep the quote marks)</span></label>
+    <label class="ck"><input type="checkbox" id="g3"><span><b>3.</b> Tap <b>Show options</b> → How often: <b>At most once a day</b> → Sources: Automatic → Language: English → Region: Ghana → Create Alert</span></label>
+    <label class="ck"><input type="checkbox" id="g4"><span><b>4.</b> Repeat steps 2–3 for: <b>"Abena Tay Foundation"</b> and <b>"Daughters Ministries International"</b></span></label>
+    <label class="ck"><input type="checkbox" id="g5"><span><b>5.</b> Done — emails arrive whenever anyone mentions her anywhere online. Forward important ones to Ox and we log them in the media dossier.</span></label>
+  </div>
+  <h3>Guide 2 — Import Your Reminder Pack (phone alarms forever)</h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="c1"><span><b>1.</b> Find <b>CoS_Reminder_Pack.ics</b> on the Desktop (or download it to your phone)</span></label>
+    <label class="ck"><input type="checkbox" id="c2"><span><b>2.</b> On your phone/computer open <b>calendar.google.com</b> → gear ⚙ → Settings → <b>Import &amp; Export</b></span></label>
+    <label class="ck"><input type="checkbox" id="c3"><span><b>3.</b> Select the .ics file → choose/create a calendar called <b>CoS Rhythm</b> → Import</span></label>
+    <label class="ck"><input type="checkbox" id="c4"><span><b>4.</b> All routines &amp; key dates appear with alarms — your phone now reminds you automatically</span></label>
+  </div>
+  <h3>Guide 3 — Password Manager (Bitwarden, free)</h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="p1"><span>Install Bitwarden app → create account with strong master password → save it offline safely too</span></label>
+    <label class="ck"><input type="checkbox" id="p2"><span>Add entries: GitHub, Gmail, WhatsApp Business, bank portal — grow as you create accounts</span></label>
+  </div>
+  <h3>Guide 4 — Google Drive Filing (mirror of SOP folders)</h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="d1"><span>Create folders exactly as handbook Section 14: 01-Letters-Sent, 02-Evidence, 03-Finance, 04-Media, 05-Reports, 06-Certificates</span></label>
+    <label class="ck"><input type="checkbox" id="d2"><span>Upload phone photos to 02-Evidence same day as every event; monthly backup ritual is in your calendar pack</span></label>
+  </div>
+  <h3>Guide 5 — Canva Nonprofit (free pro design tools)</h3>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="v1"><span>Go to canva.com → Canva for Nonprofits → apply with foundation details + registration proof</span></label>
+    <label class="ck"><input type="checkbox" id="v2"><span>Once approved: build EPK, flyers, banners free (templates inside Canva)</span></label>
+  </div>
+</section>
+
+<!-- ================= KEY DATES ================= -->
+<section class="page" id="dates">
+  <h2 class="pt">📅 Key Dates</h2>
+  <p class="lede">Foundation rhythm + international moments we campaign on. All also live in your phone calendar via the reminder pack.</p>
+  <div class="scroll"><table><tr><th>Date</th><th>What</th><th>Days away</th></tr>
+  <tr><td>Monthly · last working day</td><td>Monthly close + report to Founder</td><td class="cd" data-date=""></td></tr>
+  <tr><td>Every Tuesday</td><td>Pipeline update day</td><td class="cd" data-weekday="2"></td></tr>
+  <tr><td>First Tuesday monthly</td><td>Opportunity Radar scan</td><td class="cd" data-firsttue="1"></td></tr>
+  <tr><td>Oct 11</td><td>International Day of the Girl</td><td class="cd" data-md="10-11"></td></tr>
+  <tr><td>Nov 25 – Dec 10</td><td>16 Days of Activism (our Nov campaign)</td><td class="cd" data-md="11-25"></td></tr>
+  <tr><td>Mar 8</td><td>International Women's Day flagship</td><td class="cd" data-md="3-8"></td></tr>
+  <tr><td>May 28</td><td>Menstrual Hygiene Day flagship</td><td class="cd" data-md="5-28"></td></tr>
+  <tr><td>End Oct 2026</td><td>Grant folder 100% + Track 1 packets delivered</td><td class="cd" data-date="2026-10-31"></td></tr>
+  <tr><td>End Jan 2027</td><td>ECOSOC/iCSO application submitted</td><td class="cd" data-date="2027-01-31"></td></tr>
+  <tr><td>Jun 2027 mid-month</td><td>Mid-year KPI review with Founder</td><td class="cd" data-date="2027-06-15"></td></tr>
+  <tr><td>End Aug 2027</td><td>Year 1 closes: annual report + showcase</td><td class="cd" data-date="2027-08-31"></td></tr></table></div>
+  <div class="co"><b class="tag">Cadence reminders</b>Nudge funders day 7 → 14 → monthly · Post-event report within 7 days · Thank-yous within 48h · Monthly backup last working day.</div>
+</section>
+
+<!-- ================= GLOSSARY ================= -->
+<section class="page" id="glossary">
+  <h2 class="pt">📖 Glossary</h2>
+  <p class="lede">Every abbreviation explained in plain language.</p>
+  <div class="scroll"><table><tr><th>Short</th><th>Full meaning</th></tr>
+  <tr><td><b>ATF</b></td><td>Abena Tay Foundation</td></tr>
+  <tr><td><b>CoS</b></td><td>Chief of Staff (you)</td></tr>
+  <tr><td><b>KPI</b></td><td>Key Performance Indicator — a number that measures success</td></tr>
+  <tr><td><b>SDG</b></td><td>Sustainable Development Goal — the UN's 17 global goals (2015–2030)</td></tr>
+  <tr><td><b>ECOSOC</b></td><td>Economic and Social Council — UN body that gives NGOs official consultative status</td></tr>
+  <tr><td><b>iCSO</b></td><td>Integrated Civil Society Organizations — the UN online system where NGOs apply for that status</td></tr>
+  <tr><td><b>MoGCSP</b></td><td>Ministry of Gender, Children and Social Protection (Ghana)</td></tr>
+  <tr><td><b>NPOS</b></td><td>Non-Profit Organisations Secretariat — Ghana's NGO register under that Ministry</td></tr>
+  <tr><td><b>LBG</b></td><td>Limited by Guarantee — the legal company form used by NGOs in Ghana</td></tr>
+  <tr><td><b>CIN</b></td><td>Child in Need — the Founder's first charity (1997), our longevity proof</td></tr>
+  <tr><td><b>YGDB</b></td><td>Young Girls Development Bank — our girls' savings program</td></tr>
+  <tr><td><b>AWDF</b></td><td>African Women's Development Fund — funder for women's organizations</td></tr>
+  <tr><td><b>WACSI</b></td><td>West Africa Civil Society Institute — capacity-building organization</td></tr>
+  <tr><td><b>WDB GH</b></td><td>Women's Development Bank Ghana</td></tr>
+  <tr><td><b>CUA</b></td><td>Our Last-Mile distribution partner named in letter 06</td></tr>
+  <tr><td><b>CSR</b></td><td>Corporate Social Responsibility — companies' community-giving budgets</td></tr>
+  <tr><td><b>MOU</b></td><td>Memorandum of Understanding — a signed partnership agreement</td></tr>
+  <tr><td><b>LOI</b></td><td>Letter of Intent/Interest — short first-step funding application</td></tr>
+  <tr><td><b>EOI</b></td><td>Expression of Interest — similar short application</td></tr>
+  <tr><td><b>EPK</b></td><td>Electronic Press Kit — polished PDF (bio, topics, photos, videos) used to book speeches</td></tr>
+  <tr><td><b>M&amp;E</b></td><td>Monitoring and Evaluation — systematically counting and verifying results</td></tr>
+  <tr><td><b>PIF</b></td><td>Programs, Income, Founder — our prioritization filter when overloaded</td></tr>
+  <tr><td><b>IWD</b></td><td>International Women's Day (March 8)</td></tr>
+  <tr><td><b>MHD</b></td><td>Menstrual Hygiene Day (May 28)</td></tr>
+  <tr><td><b>H.E. / Amb. / Rev.</b></td><td>Her Excellency / Ambassador / Reverend — parts of the Founder's official title</td></tr>
+  <tr><td><b>GH₵</b></td><td>Ghana cedis (currency)</td></tr></table></div>
+</section>
+
+<!-- ================= ASK OX ================= -->
+<section class="page" id="askox">
+  <h2 class="pt">💬 Ask Ox</h2>
+  <p class="lede">Your living question-and-answer space. Plain text answers, always here.</p>
+  <div class="co green"><b class="tag">How it works</b>1. Open the chat with Ox (wherever you normally talk). 2. Ask anything. 3. Say "put it on my platform". 4. Refresh this page — the answer appears below, saved permanently.</div>
+  <h3>Q&amp;A Feed</h3>
+  <div class="card"><b>Q: What do I actually do on my very first morning?</b><br>A: Open the Today page. Do the 7-item morning routine top to bottom. Then give the Founder her 5-line brief (template in Handbook → Templates). That's it — the system carries the rest.</div>
+  <div class="card"><b>Q: An invitation just arrived for Madam — what do I do?</b><br>A: Run it through the Booking Pipeline (Handbook §5): log it → check calendar → hold date → ask her to confirm terms → send EPK if confirmed → prepare briefing card 3 days before → capture evidence after.</div>
+  <div class="card"><b>Q: A funder replied — now what?</b><br>A: Same day: log it in the Relationships board, update their stage badge, set the next-action date. If they ask for documents → Grant Folder checklist (Handbook §8). If unclear → ask Ox to draft the reply.</div>
+  <div class="card"><b>Q: Where are the actual letters and kits?</b><br>A: Asset Map page has every link. Letters live in vault/Letters; kits in vault/Visibility; dossier on this PC in Documents → AbenaTay-MasterDossier.</div>
+  <div class="card"><b>Q: How do I keep this platform private like everything else?</b><br>A: This address is unguessable and hidden from search engines. Share individual pages only with people the Founder approves — same rule as the other secret site.</div>
+  <div class="co blue"><b class="tag">New answers land here</b>Whenever Ox answers something useful in chat, say "save to platform" and it joins this feed.</div>
+</section>
+
+</main>
+
+<nav class="tabs">
+  <a href="#today" data-tab="today"><span>🏠</span>Today</a>
+  <a href="#handbook" data-tab="handbook"><span>📘</span>Handbook</a>
+  <a href="#people" data-tab="people"><span>🤝</span>People</a>
+  <a href="#setup" data-tab="setup"><span>🛠️</span>Setup</a>
+  <a href="#" onclick="toggleDrawer(true);return false;"><span>☰</span>More</a>
+</nav>
+
+<footer class="ft">Confidential — Abena Tay Foundation internal tool · Prepared for Paul Hungo, Chief of Staff · Hidden from search engines</footer>
+
+<script>
+// ROUTER
+const pages=document.querySelectorAll('.page');
+function route(){
+  let id=(location.hash||'#today').slice(1).split('-')[0];
+  if(location.hash.startsWith('#h-s'))id='handbook';
+  const target=document.getElementById(id)||document.getElementById('today');
+  pages.forEach(p=>p.classList.toggle('active',p===target));
+  document.querySelectorAll('#drawer a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));
+  document.querySelectorAll('nav.tabs a[data-tab]').forEach(a=>a.classList.toggle('active',a.dataset.tab===id));
+  window.scrollTo({top:0});
+}
+window.addEventListener('hashchange',route);
+
+// PERSISTENT CHECKBOXES
+document.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+  const k='cos_'+cb.id;
+  if(localStorage.getItem(k)==='1')cb.checked=true;
+  cb.addEventListener('change',()=>localStorage.setItem(k,cb.checked?'1':'0'));
+});
+
+// DRAWER
+function toggleDrawer(open){
+  document.getElementById('drawer').classList.toggle('open',open);
+  document.getElementById('scrim').classList.toggle('show',open);
+}
+document.querySelectorAll('#drawer a').forEach(a=>a.addEventListener('click',()=>toggleDrawer(false)));
+
+// TODAY DASHBOARD
+const themes={1:['Monday — Planning','Set the week: priorities, staff assignments, present the Founder\'s week overview'],2:['Tuesday — Partnerships','Update the pipeline board, send every due funder follow-up'],3:['Wednesday — Programs','Event preparations, registrations, logistics'],4:['Thursday — Visibility','Publish LinkedIn post, update media dossier, engage partner pages'],5:['Friday — Accountability','Weekly report to Founder, file everything, plan Monday'],6:['Saturday — Field','Programs, events, community work'],0:['Sunday — Rest & Ministry','Recharge. Quick scan of messages only.']};
+const now=new Date();
+document.getElementById('todayName').textContent=themes[now.getDay()][0];
+document.getElementById('todayTheme').textContent=themes[now.getDay()][1];
+document.getElementById('todayDate').textContent=now.toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+// COUNTDOWNS
+function daysUntil(d){return Math.ceil((d-new Date())/86400000);}
+document.querySelectorAll('.cd').forEach(td=>{
+  const ds=td.dataset;let t='';
+  if(ds.date){t=daysUntil(new Date(ds.date+'T09:00:00'))+' days';}
+  else if(ds.weekday!==undefined&&ds.weekday!==''){const target=new Date();target.setHours(9,0,0,0);let diff=(parseInt(ds.weekday)-now.getDay()+7)%7;if(diff===0&&now.getHours()>=9)diff=7;t=diff===0?'Today':diff+' days';}
+  else if(ds.firsttue){const d=new Date(now.getFullYear(),now.getMonth(),1);while(d.getDay()!==2)d.setDate(d.getDate()+1);if(d<new Date(new Date().toDateString()))d.setMonth(d.getMonth()+1);t=daysUntil(d)+' days ('+d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+')';}
+  else if(ds.md){const[y,m,dd]=ds.md.split('-');let d=new Date(now.getFullYear(),m-1,dd);if(d<new Date(new Date().toDateString()))d.setFullYear(d.getFullYear()+1);t=daysUntil(d)+' days ('+d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+')';}
+  else if(td.textContent.trim()===''){}
+  td.textContent=t||'—';
+});
+route();
+</script>
+</body>
+</html>
