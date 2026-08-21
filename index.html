@@ -747,6 +747,12 @@ body.hardlocked{overflow:hidden;}
       <input id="chatIn" type="text" placeholder="Type your question here…" autocomplete="off">
       <button id="chatSend" onclick="sendQ()">Send ➤</button>
     </div>
+    <div id="teachBox" style="display:none;margin-top:12px;background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:12px;">
+      <div style="font-weight:700;color:var(--purple-d);font-size:.85rem;margin-bottom:8px;">🧠 I don't know this one yet — teach me (saved on this device forever):</div>
+      <input id="tq" placeholder="The question you asked…" style="width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin-bottom:7px;font-size:.87rem;background:#fff;">
+      <textarea id="ta" rows="3" placeholder="The answer — steps, locations, anything…" style="width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:.87rem;background:#fff;resize:vertical;"></textarea>
+      <button onclick="saveTeach()" style="margin-top:8px;background:var(--green);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:.88rem;">✔ Teach me &amp; answer again</button>
+    </div>
   </div>
   <div class="co blue" style="margin-top:16px;"><b class="tag">Beyond this app</b>The built-in Ox below answers from everything stored in your platform, dossier and vault — program plans, files, links, procedures. For brand-new drafting ("write the letter", "design the flyer"), type it in the <b>Ox chat window on your computer</b> — the same window where you asked for this platform to be built.</div>
 </section>
@@ -932,7 +938,9 @@ const KB=[
  {k:["ready","readiness","prepared","checklist before event"],a:"✅ Run the Program Readiness page 7 days before any event: venue, materials, people, money, comms — tick each box. Green means go."},
  {k:["project history","our journey","how far we","progress so far","timeline of","research depth","how deep"],a:"🛤️ THE FULL JOURNEY — how deep this system goes:\nPHASE 1 — RESEARCH: Master Dossier compiled on the PC (9 source files): foundation profile, letters audit (23 items), visibility kits (9), UN/diplomatic track.\nPHASE 2 — PRIVACY LOCKDOWN: public exposure removed; repos made private; old public site killed (404 forever); Google removal requested.\nPHASE 3 — SECRET INFRASTRUCTURE: unguessable Document Hub deployed (command centres, Letters Index, Visibility plan, Funding pack) + private GitHub vault (invite-only).\nPHASE 4 — KNOWLEDGE: 14-section Operations Handbook (interactive HTML + print PDF) written for the CoS role.\nPHASE 5 — THE PLATFORM: this very app — 13 pages, Today dashboard, trackers, countdowns, Everything Map, embedded Letters library.\nPHASE 6 — INTELLIGENCE: PIN lock, site-wide search, Ask-Ox chat brain (60+ playbooks, Ghana-specific), Idea Mode, file generators.\nSTATUS: fully operational on phone + laptop. Next frontier: executing programs (vocational pilot first)."},
  {k:["all preparations","what we prepared","everything built","system overview","what exists"],a:"📦 EVERYTHING PREPARED, ONE VIEW:\n• Documents: Operations Handbook (HTML+PDF) · 23-letter library (embedded here) · 9 visibility kits · funding pack · EPK master\n• Systems: secret platform (this app) · secret Document Hub · private vault · calendar pack (15 alarms)\n• Intelligence: Ox brain — procedures, files, dates, budgets, safeguarding, UN track, generators\n• Protection: PIN lock · noindex shields · unguessable addresses · zero public links\nMissing pieces are known & planned: ECOSOC status filing, Canva nonprofit approval, first school MOU."},
- {k:["can it break","backup plan","if this breaks","system fails","lose the platform","strong"],a:"🛡️ BREAKAGE PROTECTION (already engineered):\n• Platform = ONE self-contained file; no external services that can die.\n• Your phone/laptop keep working copies; GitHub keeps history of every version ever pushed.\n• Master documents ALSO live offline: Desktop copies + Documents folders + vault.\nIf anything ever fails: open Ox chat on the computer and say 'restore/rebuild' — full reconstruction is possible because every source survives in 3 places."}
+ {k:["can it break","backup plan","if this breaks","system fails","lose the platform","strong"],a:"🛡️ BREAKAGE PROTECTION (already engineered):\n• Platform = ONE self-contained file; no external services that can die.\n• Your phone/laptop keep working copies; GitHub keeps history of every version ever pushed.\n• Master documents ALSO live offline: Desktop copies + Documents folders + vault.\nIf anything ever fails: open Ox chat on the computer and say 'restore/rebuild' — full reconstruction is possible because every source survives in 3 places."},
+ {k:["prison","nsawam","inmates","correctional","remand","cells","jail"],a:"🏛️ Prison outreach program (e.g. Nsawam) — step by step:\n1. PERMISSION FIRST: formal request letter to the Director-General of Ghana Prisons Service, copied to the Nsawam Officer-in-Charge & prison chaplain — approval takes weeks, start early.\n2. SCOPE with chaplaincy: what the prison actually needs — skills training for female inmates, hygiene donations, faith support, aftercare planning.\n3. RULES: approved items only, no cameras without written clearance, volunteer ID list submitted in advance.\n4. TEAM: small vetted team (4–6), briefed on security & dignity protocols.\n5. THE PROGRAM: vocational starter kits + training hours inside · pads & soap drive · mentorship for those near release.\n6. AFTERCARE: link near-release inmates to our vocational pathway outside — a powerful funder story.\n7. DOCUMENT: report to prisons service afterwards; testimonies only with institutional consent.\nSay \"sponsorship letter\" for templates to adapt for the permission request."},
+ {k:["can you think","do you think","are you smart","are you intelligent","think well","your intelligence"],a:"🧠 Honest answer: I think in a focused way — I reason over EVERYTHING your foundation has built (every file, procedure, playbook and date) and construct step-by-step answers from it. On foundation matters that makes me sharper than any general AI, because they know nothing about Abena Tay Foundation. What I can't do offline is free imagination beyond my stored knowledge — BUT I never stay limited: (1) teach me any missing answer right here and it's mine forever, (2) ask Ox in the computer chat for brand-new thinking and say 'save to platform'. Every day this brain grows."}
 ];
 const chatLog=document.getElementById("chatLog"),chatIn=document.getElementById("chatIn");
 let chatHist=[];try{chatHist=JSON.parse(localStorage.getItem("cos_chat")||"[]")||[];}catch(e){chatHist=[];}
@@ -952,6 +960,18 @@ function scoreEntry(e,b){
   });
   return sc*(e.w||1);
 }
+function loadCustom(){try{return JSON.parse(localStorage.getItem("cos_custom_kb")||"[]")||[];}catch(e){return [];}}
+function showTeach(){var tb=document.getElementById("teachBox");if(tb)tb.style.display="block";}
+function saveTeach(){
+  var qt=document.getElementById("tq").value.trim(),at=document.getElementById("ta").value.trim();
+  if(!qt||!at)return;
+  var arr=loadCustom();
+  arr.push({k:qt.toLowerCase().replace(/[^a-z0-9₵ ]/g," ").split(/\s+/).filter(function(w){return w.length>2;}),a:at});
+  try{localStorage.setItem("cos_custom_kb",JSON.stringify(arr.slice(-100)));}catch(e){}
+  document.getElementById("tq").value="";document.getElementById("ta").value="";
+  document.getElementById("teachBox").style.display="none";
+  chatIn.value=qt;sendQ();
+}
 function oxAnswer(q){
   var s=q.toLowerCase();
   if(/^(hi|hello|hey|good morning|good afternoon|good evening)\b/.test(s)&&s.length<30)return "Hello Paul! 👋 What do you need — a file, a procedure, a date, or a plan?";
@@ -959,21 +979,28 @@ function oxAnswer(q){
   if(/what time/.test(s))return "🕐 It is "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})+".";
   if(/what.*(date|day) (is it|today)/.test(s))return "📅 Today is "+new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+".";
   var G=tryGenerate(q);if(G)return G;
-  function byKey(k0){var f=null;KB.forEach(function(e){if(e.k[0]===k0)f=e;});return f?(typeof f.a==="function"?f.a():f.a):null;}
-  if(/(program ideas?|ideas? for programs|projects? for girls|empowerment ideas?|program menu|new programs?)/.test(s))return byKey("program ideas");
-  if(/(no idea|don.t know what|suggest|recommend|what should we do|advise us|next move|i want to do something)/.test(s))return byKey("suggest");
-  var b=bag(q),ranked=[];
-  KB.forEach(function(e,i){var sc=scoreEntry(e,b);if(sc>0)ranked.push({i:i,e:e,sc:sc});});
-  if(!ranked.length)return null;
-  ranked.sort(function(x,y){return y.sc-x.sc;});
   function val(e){return typeof e.a==="function"?e.a():e.a;}
-  var main=val(ranked[0].e);
-  if(ranked.length>1&&ranked[1].sc>=Math.max(2,ranked[0].sc*0.5)&&ranked[1].i!==ranked[0].i){
-    var second=val(ranked[1].e);
-    if(second.length<420)main+="\n\n—— Related ——\n"+second;
-    else main+="\n\nRelated: try asking about \""+ranked[1].e.k[0]+"\".";
+  function byKey(k0){var f=null;KB.forEach(function(e){if(e.k[0]===k0)f=e;});return f?val(f):null;}
+  var b=bag(q);
+  var ck=null,cks=0;
+  loadCustom().forEach(function(e){var sc=scoreEntry(e,b);if(sc>cks){cks=sc;ck=e;}});
+  if(ck&&cks>=3)return val(ck);
+  var ranked=[];
+  KB.forEach(function(e,i){var sc=scoreEntry(e,b);if(sc>0)ranked.push({i:i,e:e,sc:sc});});
+  ranked.sort(function(x,y){return y.sc-x.sc;});
+  if(ranked.length&&ranked[0].sc>=3){
+    var main=val(ranked[0].e);
+    if(ranked.length>1&&ranked[1].sc>=Math.max(3,ranked[0].sc*0.6)&&ranked[1].i!==ranked[0].i){
+      var second=val(ranked[1].e);
+      if(second.length<420)main+="\n\n—— Related ——\n"+second;
+      else main+="\n\nRelated: try asking about \""+ranked[1].e.k[0]+"\".";
+    }
+    return main;
   }
-  return main;
+  if(/(program ideas?|ideas? for programs|projects? for girls|empowerment ideas?|program menu)/.test(s))return byKey("program ideas");
+  if(/(no idea|don.t know what|suggest|recommend|what should we do|advise us|next move|i want to do something)/.test(s)&&s.length<60)return byKey("suggest");
+  showTeach();
+  return null;
 }
 function dl(name,content,mime){try{var b=new Blob([content],{type:mime});var u=URL.createObjectURL(b);var a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){try{URL.revokeObjectURL(u);}catch(e){}},4000);}catch(e){}}
 function csvOf(rows){return rows.map(function(r){return r.map(function(c){c=String(c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(",");}).join("\r\n");}
@@ -1021,7 +1048,7 @@ function tryGenerate(q){
   }
   return null;
 }
-const FALLBACK="That exact one isn't in my built-in brain yet. Fastest fix: type the request in the Ox chat window on your computer (the same window where you asked for this platform to be built) and I'll answer fully — then say \"save to platform\" and it becomes part of this page forever.\nMeanwhile try: the 🔍 search bar above · or say \"create an attendance sheet\" / \"make a flyer for ...\" to watch me build files.";
+const FALLBACK="That exact one isn't in my built-in brain yet. Two instant fixes:\n1. 🧠 A teach-me box just appeared below — write the answer once, and I'll know it forever on this device.\n2. Or ask Ox live in the computer chat and say \"save to platform\".\nMeanwhile you can also try the 🔍 search bar above, or say \"create an attendance sheet\" / \"make a flyer for ...\" to watch me build files.";
 function sendQ(){
   var v=chatIn.value.trim();if(!v)return;
   chatIn.value="";chatHist.push({w:"me",t:v});addBub("me",v);saveChat();
