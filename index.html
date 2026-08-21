@@ -788,9 +788,11 @@ async function pinSubmit(){
 function pinKey(k){if(pinBuf.length>=4)return;pinBuf+=k;pinDots();if(pinBuf.length===4)setTimeout(pinSubmit,130);}
 function pinBack(){pinBuf=pinBuf.slice(0,-1);pinDots();}
 (function pinInit(){
-  var saved="";try{saved=localStorage.getItem("cos_pin")||"";}catch(e){}
-  if(!saved){pinStage="create";pinTitle("Create PIN");pinMsg("Choose a 4-digit PIN for this private app.");}
-  else{var until=parseInt(localStorage.getItem("cos_pin_until")||"0",10);if(Date.now()<until){pinStage="open";pinHide();}}
+  try{
+    var saved="";try{saved=localStorage.getItem("cos_pin")||"";}catch(e){}
+    if(!saved){pinStage="create";pinTitle("Create PIN");pinMsg("Choose a 4-digit PIN for this private app.");}
+    else{var until=parseInt(localStorage.getItem("cos_pin_until")||"0",10);if(Date.now()<until){pinStage="open";pinHide();}}
+  }catch(e){pinStage="create";}
 })();
 document.addEventListener("keydown",function(e){
   var lockOff=document.getElementById("lock").classList.contains("off");
@@ -859,6 +861,7 @@ sb.addEventListener("input",doSearch);
 sb.addEventListener("focus",function(){if(sb.value.trim().length>=1)doSearch();});
 sres.addEventListener("click",function(){sres.classList.remove("open");sb.value="";});
 document.addEventListener("click",function(ev){if(!ev.target.closest("#searchWrap"))sres.classList.remove("open");});
+}catch(se){}
 
 // ============ OX CHAT BRAIN ============
 const KB=[
@@ -925,7 +928,10 @@ const KB=[
  {k:["fundraising event","gala","fundraiser dinner","concert","charity event"],a:"🎉 Fundraising event plan (compact):\n1. Format: dinner + auction/testimonies OR community concert — pick by audience.\n2. Venue free via church/partner hotel (sponsor trade: logo everywhere).\n3. Tables sold at tiers (Patron GH₵2k, Friend GH₵500...); local businesses buy tables = sponsorship letters ready-made.\n4. Program: 90 min max — testimonies beat speeches; pledge moment with cards.\n5. Costs covered by in-kind sponsors BEFORE ticket sales start → everything after is profit.\n6. Follow-up within 48h: thank-you notes + receipts (Letters templates)."},
  {k:["social media growth","linkedin growth","followers","online presence"],a:"📱 Social media engine:\n• Cadence: Thu Founder post + 2 program posts weekly (photos > text).\n• Hashtag set fixed: #AbenaTayFoundation #GirlsEducation #Ghana.\n• Engage 15 min daily: comment on partners' & UN pages as the Foundation.\n• WhatsApp Status = our broadcast channel: every event, every thank-you.\n• Quarterly: boost best-performing post with small ad budget if any sponsor covers it.\nFull ops: Handbook §10 + Visibility kits online."},
  {k:["what next","this quarter","roadmap now","priority right now","focus"],a:"🎯 This quarter's priorities (from Roadmap §12):\n1. Ship vocational training pilot (say \"vocational\")\n2. Sign 1 school MOU + 1 church partnership\n3. Secure first institutional funder meeting (People page pipeline)\n4. Publish EPK v2 after Canva approval (Guide 5)\n5. Build evidence library: 20 consented photos + 5 testimonies\nEverything else supports these five."},
- {k:["ready","readiness","prepared","checklist before event"],a:"✅ Run the Program Readiness page 7 days before any event: venue, materials, people, money, comms — tick each box. Green means go."}
+ {k:["ready","readiness","prepared","checklist before event"],a:"✅ Run the Program Readiness page 7 days before any event: venue, materials, people, money, comms — tick each box. Green means go."},
+ {k:["project history","our journey","how far we","progress so far","timeline of","research depth","how deep"],a:"🛤️ THE FULL JOURNEY — how deep this system goes:\nPHASE 1 — RESEARCH: Master Dossier compiled on the PC (9 source files): foundation profile, letters audit (23 items), visibility kits (9), UN/diplomatic track.\nPHASE 2 — PRIVACY LOCKDOWN: public exposure removed; repos made private; old public site killed (404 forever); Google removal requested.\nPHASE 3 — SECRET INFRASTRUCTURE: unguessable Document Hub deployed (command centres, Letters Index, Visibility plan, Funding pack) + private GitHub vault (invite-only).\nPHASE 4 — KNOWLEDGE: 14-section Operations Handbook (interactive HTML + print PDF) written for the CoS role.\nPHASE 5 — THE PLATFORM: this very app — 13 pages, Today dashboard, trackers, countdowns, Everything Map, embedded Letters library.\nPHASE 6 — INTELLIGENCE: PIN lock, site-wide search, Ask-Ox chat brain (60+ playbooks, Ghana-specific), Idea Mode, file generators.\nSTATUS: fully operational on phone + laptop. Next frontier: executing programs (vocational pilot first)."},
+ {k:["all preparations","what we prepared","everything built","system overview","what exists"],a:"📦 EVERYTHING PREPARED, ONE VIEW:\n• Documents: Operations Handbook (HTML+PDF) · 23-letter library (embedded here) · 9 visibility kits · funding pack · EPK master\n• Systems: secret platform (this app) · secret Document Hub · private vault · calendar pack (15 alarms)\n• Intelligence: Ox brain — procedures, files, dates, budgets, safeguarding, UN track, generators\n• Protection: PIN lock · noindex shields · unguessable addresses · zero public links\nMissing pieces are known & planned: ECOSOC status filing, Canva nonprofit approval, first school MOU."},
+ {k:["can it break","backup plan","if this breaks","system fails","lose the platform","strong"],a:"🛡️ BREAKAGE PROTECTION (already engineered):\n• Platform = ONE self-contained file; no external services that can die.\n• Your phone/laptop keep working copies; GitHub keeps history of every version ever pushed.\n• Master documents ALSO live offline: Desktop copies + Documents folders + vault.\nIf anything ever fails: open Ox chat on the computer and say 'restore/rebuild' — full reconstruction is possible because every source survives in 3 places."}
 ];
 const chatLog=document.getElementById("chatLog"),chatIn=document.getElementById("chatIn");
 let chatHist=[];try{chatHist=JSON.parse(localStorage.getItem("cos_chat")||"[]")||[];}catch(e){chatHist=[];}
@@ -951,6 +957,7 @@ function oxAnswer(q){
   if(s.includes("thank"))return "Always, Paul 🙏 Anything else?";
   if(/what time/.test(s))return "🕐 It is "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})+".";
   if(/what.*(date|day) (is it|today)/.test(s))return "📅 Today is "+new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+".";
+  var G=tryGenerate(q);if(G)return G;
   function byKey(k0){var f=null;KB.forEach(function(e){if(e.k[0]===k0)f=e;});return f?(typeof f.a==="function"?f.a():f.a):null;}
   if(/(program ideas?|ideas? for programs|projects? for girls|empowerment ideas?|program menu|new programs?)/.test(s))return byKey("program ideas");
   if(/(no idea|don.t know what|suggest|recommend|what should we do|advise us|next move|i want to do something)/.test(s))return byKey("suggest");
@@ -967,17 +974,64 @@ function oxAnswer(q){
   }
   return main;
 }
-const FALLBACK="That exact one isn't in my built-in brain yet. Fastest fix: type the request in the Ox chat window on your computer (the same window where you asked for this platform to be built) and I'll answer fully — then say \"save to platform\" and it becomes part of this page forever.\nMeanwhile try the 🔍 search bar above.";
+function dl(name,content,mime){try{var b=new Blob([content],{type:mime});var u=URL.createObjectURL(b);var a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){try{URL.revokeObjectURL(u);}catch(e){}},4000);}catch(e){}}
+function csvOf(rows){return rows.map(function(r){return r.map(function(c){c=String(c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(",");}).join("\r\n");}
+function blankRows(n,cols){var a=[];for(var i=0;i<n;i++)a.push(cols.map(function(){return "";}));return a;}
+function genSheet(kind){
+  var t=new Date().toISOString().slice(0,10),f;
+  if(kind==="attendance"){var h=["Date","Full Name","Age","Class / Group","Present (P/A)","Guardian Contact","Notes"];f={n:"Attendance_Register_"+t+".csv",h:h,r:[h].concat(blankRows(25,h))};}
+  else if(kind==="budget"){var h2=["Item","Category","Quantity","Unit Cost (GH₵)","Total (GH₵)","Funder / Source","Status"];f={n:"Program_Budget_"+t+".csv",h:h2,r:[h2,["Venue rental","Logistics","","","","","Planned"],["Trainer / facilitator fees","Personnel","","","","","Planned"],["Materials & starter kits","Direct benefit","","","","","Planned"],["Feeding / refreshments","Welfare","","","","","Planned"],["Transport","Logistics","","","","","Planned"],["Publicity","Comms","","","","","Planned"],["Monitoring & evaluation","Quality","","","","","Planned"],["Contingency (7%)","Reserve","","","","","Planned"]].concat(blankRows(15,h2))};}
+  else if(kind==="donors"){var h3=["Organisation","Contact Person","Phone","Email","Focus Area","Last Contact","Next Action + Date","Amount Requested (GH₵)","Stage"];f={n:"Donor_Pipeline_"+t+".csv",h:h3,r:[h3].concat(blankRows(20,h3))};}
+  else if(kind==="inventory"){var h4=["Item","Quantity","Condition","Location","Custodian","Date Checked"];f={n:"Asset_Inventory_"+t+".csv",h:h4,r:[h4].concat(blankRows(25,h4))};}
+  else{var h5=["Week / Date","Task","Owner","Deadline","Status","Notes"];f={n:"Work_Plan_"+t+".csv",h:h5,r:[h5].concat(blankRows(25,h5))};}
+  f.c=csvOf(f.r);return f;
+}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function genFlyer(topic){
+  var T=(topic&&topic.replace(/[^A-Za-z0-9 '’!&.,-]/g,"").trim())||"GIRLS EMPOWERMENT PROGRAM";if(!T)T="GIRLS EMPOWERMENT PROGRAM";
+  var words=T.toUpperCase().split(/\s+/),lines=[],cur="";
+  words.forEach(function(w){if((cur+" "+w).trim().length<=14){cur=(cur?cur+" ":"")+w;}else{if(cur)lines.push(cur);cur=w;}});if(cur)lines.push(cur);
+  if(lines.length>4){lines=lines.slice(0,4);}
+  while(lines.length<1)lines.push("EVENT");
+  var tspans=lines.map(function(l,i){return '<text x="540" y="'+(430+i*95)+'" text-anchor="middle" font-family="Georgia,serif" font-size="78" font-weight="bold" fill="#331d4d">'+esc(l)+"</text>";}).join("");
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">'
+  +'<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#331d4d"/><stop offset="0.6" stop-color="#4a2c6f"/><stop offset="1" stop-color="#5a3a85"/></linearGradient></defs>'
+  +'<rect width="1080" height="1350" fill="url(#g)"/>'
+  +'<circle cx="950" cy="140" r="180" fill="#c9a227" opacity="0.16"/><circle cx="120" cy="1210" r="220" fill="#c9a227" opacity="0.12"/>'
+  +'<rect x="90" y="150" width="900" height="640" rx="28" fill="#faf8f5"/>'
+  +'<rect x="90" y="150" width="900" height="14" rx="7" fill="#c9a227"/>'
+  +'<text x="540" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="44" fill="#4a2c6f" font-weight="bold">ABENA TAY FOUNDATION</text>'
+  +'<text x="540" y="300" text-anchor="middle" font-family="Arial" font-size="24" letter-spacing="6" fill="#c9a227">EMPOWERING GIRLS &amp; WOMEN</text>'
+  +tspans
+  +'<rect x="330" y="'+(430+lines.length*95-30)+'" width="420" height="8" rx="4" fill="#c9a227"/>'
+  +'</svg>';
+}
+function tryGenerate(q){
+  var s=q.toLowerCase();
+  if(/(sheet|spreadsheet|csv|register|tracker|work ?plan)/.test(s)&&/(create|make|generate|build|download|give me|prepare|need)/.test(s)){
+    var kind=/attend/.test(s)?"attendance":/budget|cost/.test(s)?"budget":/donor|funder|sponsor list/.test(s)?"donors":/invent|asset|equipment/.test(s)?"inventory":"workplan";
+    var f=genSheet(kind);dl(f.n,f.c,"text/csv");
+    return "📊 Done — **"+f.n+"** is downloading now (check Downloads folder).\n• Open with Excel or Google Sheets — or upload to Google Drive\n• Columns: "+f.h.join(" · ")+"\nFill, save, and file per Handbook §14 rules. Different columns needed? Ask me here on the computer.";
+  }
+  if(/(flyer|poster|banner|announcement image|design)/.test(s)&&/(create|make|generate|design|build|produce)/.test(s)){
+    var m=q.match(/(?:for|about|titled|called)[:\s]+(.+)$/i);var topic=m?m[1]:q.replace(/^.*?(flyer|poster|banner|design)\s*(for|of|about)?\s*/i,"");
+    var svg=genFlyer(topic&&topic.length>1?topic:"");dl("ATF_Flyer.svg",svg,"image/svg+xml");
+    return "🖼️ Flyer built — **ATF_Flyer.svg** is downloading.\n1. Open it in any browser to view (purple & gold brand applied)\n2. To share: Print → Save as PDF\n3. Add photos/details in Canva later for pro polish (Setup Guide 5)\nWant different wording? Tell me the exact title and say 'again'.";
+  }
+  return null;
+}
+const FALLBACK="That exact one isn't in my built-in brain yet. Fastest fix: type the request in the Ox chat window on your computer (the same window where you asked for this platform to be built) and I'll answer fully — then say \"save to platform\" and it becomes part of this page forever.\nMeanwhile try: the 🔍 search bar above · or say \"create an attendance sheet\" / \"make a flyer for ...\" to watch me build files.";
 function sendQ(){
   var v=chatIn.value.trim();if(!v)return;
   chatIn.value="";chatHist.push({w:"me",t:v});addBub("me",v);saveChat();
   setTimeout(function(){
-    var ans=oxAnswer(v)||FALLBACK;
+    var ans;
+    try{ans=oxAnswer(v)||FALLBACK;}catch(ex){ans="⚠️ Small hiccup on that one — try rephrasing, or the 🔍 search bar.";}
     chatHist.push({w:"ox",t:ans});addBub("ox",ans);saveChat();
   },260);
 }
 function quickAsk(q){chatIn.value=q;sendQ();}
-renderChat();
+try{renderChat();}catch(e){}
 
 // ROUTER
 const pages=document.querySelectorAll('.page');
