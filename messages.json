@@ -1,0 +1,16 @@
+{
+  "messages": [
+    {
+      "id": "m20260823090000",
+      "ts": "2026-08-23T09:00:00",
+      "title": "OX Inbox is live",
+      "body": "Paul, your OX Inbox is now working.\n\nFrom today, every answer I give about the Abena Tay Foundation or your Chief of Staff role lands here automatically — on this app, on every device.\n\nWhat to know:\n• Gold edge + red dot = unread. Tap a message to read it.\n• '✔ Mark all read' clears the badge. '🧹 Clear read' tidies old items.\n• Tap '🔔 Allow notifications' once, then follow Setup Guide 8 for phone pop-ups.\n\nYour move: open 🚀 First 30 Days and start Day 1."
+    },
+    {
+      "id": "m20260823090500",
+      "ts": "2026-08-23T09:05:00",
+      "title": "How delivery works",
+      "body": "Delivery rule (exactly as you instructed):\n• Foundation / CoS-role answers → sent here automatically.\n• Everything else → stays in the computer chat unless you say \"send to my inbox\".\n\nThis inbox is plain text only — built for reading answers anywhere, anytime, even offline."
+    }
+  ]
+}
