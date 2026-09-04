@@ -1,16 +1,22 @@
 {
-  "messages": [
-    {
-      "id": "m20260823090000",
-      "ts": "2026-08-23T09:00:00",
-      "title": "OX Inbox is live",
-      "body": "Paul, your OX Inbox is now working.\n\nFrom today, every answer I give about the Abena Tay Foundation or your Chief of Staff role lands here automatically — on this app, on every device.\n\nWhat to know:\n• Gold edge + red dot = unread. Tap a message to read it.\n• '✔ Mark all read' clears the badge. '🧹 Clear read' tidies old items.\n• Tap '🔔 Allow notifications' once, then follow Setup Guide 8 for phone pop-ups.\n\nYour move: open 🚀 First 30 Days and start Day 1."
-    },
-    {
-      "id": "m20260823090500",
-      "ts": "2026-08-23T09:05:00",
-      "title": "How delivery works",
-      "body": "Delivery rule (exactly as you instructed):\n• Foundation / CoS-role answers → sent here automatically.\n• Everything else → stays in the computer chat unless you say \"send to my inbox\".\n\nThis inbox is plain text only — built for reading answers anywhere, anytime, even offline."
-    }
-  ]
+    "messages":  [
+                     {
+                         "id":  "m20260823090000",
+                         "ts":  "2026-08-23T09:00:00",
+                         "title":  "OX Inbox is live",
+                         "body":  "Paul, your OX Inbox is now working.\n\nFrom today, every answer I give about the Abena Tay Foundation or your Chief of Staff role lands here automatically — on this app, on every device.\n\nWhat to know:\n• Gold edge + red dot = unread. Tap a message to read it.\n• \u0027✔ Mark all read\u0027 clears the badge. \u0027🧹 Clear read\u0027 tidies old items.\n• Tap \u0027🔔 Allow notifications\u0027 once, then follow Setup Guide 8 for phone pop-ups.\n\nYour move: open 🚀 First 30 Days and start Day 1."
+                     },
+                     {
+                         "id":  "m20260823090500",
+                         "ts":  "2026-08-23T09:05:00",
+                         "title":  "How delivery works",
+                         "body":  "Delivery rule (exactly as you instructed):\n• Foundation / CoS-role answers → sent here automatically.\n• Everything else → stays in the computer chat unless you say \"send to my inbox\".\n\nThis inbox is plain text only — built for reading answers anywhere, anytime, even offline."
+                     },
+                     {
+                         "id":  "m20260904164634",
+                         "ts":  "2026-09-04T16:46:37",
+                         "title":  "Monday Work Pack is ready",
+                         "body":  "MONDAY WORK IS READY.\n\n1) Folder: Downloads\\MY COS JOURNEY AAT\\ATF Funding Week\\Mandate\n   - Monday Official Work - Session with Her Excellency (decision sheet + week\u0027s 7 goals + daily rhythm + relationship system + letters)\n   - The Quiet Giver - Street Kindness Content Playbook (the video series, done the ATF way)\n\n2) Your workspace app now has tasks G1-G7 for the week.\n\n3) Positioning sentence (use in every letter and profile):\n   \"For over 30 years, the Abena Tay Foundation (LBG) has delivered verified, safeguarded programmes for girls, women and vulnerable families across 5 districts of Ghana - measurable outcomes in girls\u0027 education, menstrual health and mental wellbeing, aligned with SDGs 3, 4, 5 and 16, trusted in communities international partners cannot reach.\"\n\n4) Verified numbers (only these leave the office): 1,050+ girls - 800+ women and girls - 10,000 widows - 98 Nsawam women - 15 schools / 10 communities / 5 districts - 30+ years.\n\n5) Monday flow: sit with H.E., walk the decision sheet (11 items), get ticks, then letters move: UN House + UNICEF Ghana, then AWDF, then Embassies.\n\n6) Do not wait for the website fixes - they run in parallel."
+                     }
+                 ]
 }
