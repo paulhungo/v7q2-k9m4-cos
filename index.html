@@ -229,6 +229,7 @@ nav.tabs a{position:relative;}
   <a href="#today">🏠 Today Dashboard</a>
   <a href="#inbox">📥 OX Inbox<span class="tabpill" id="drawPill"></span></a>
   <a href="#start30">🚀 First 30 Days</a>
+  <a href="#trackers">🎯 My Trackers<span class="tabpill" id="trackPill"></span></a>
   <a href="#handbook">📘 Operations Handbook</a>
   <a href="#assets">🗺️ Asset Map</a>
   <a href="#people">🤝 Relationships &amp; Funders</a>
@@ -254,7 +255,7 @@ nav.tabs a{position:relative;}
     <div class="sub" id="todayDate"></div>
   </div>
   <div class="chips">
-    <a href="#inbox">📥 Inbox</a><a href="#readiness">✅ Program ready?</a><a href="#people">Funder follow-ups</a><a href="#letters">Letters</a><a href="#setup">Google Alerts setup</a><a href="#askox">Ask Ox 💬</a>
+    <a href="#inbox">📥 Inbox</a><a href="#trackers">🎯 Trackers<span class="tabpill" id="todayTrkPill"></span></a><a href="#readiness">✅ Program ready?</a><a href="#people">Funder follow-ups</a><a href="#letters">Letters</a><a href="#setup">Google Alerts setup</a><a href="#askox">Ask Ox 💬</a>
   </div>
   <h3>Morning Opening Routine <small style="color:var(--grey);font-weight:400">(first 45 minutes — ticks are saved on this device)</small></h3>
   <div class="card">
@@ -651,6 +652,16 @@ nav.tabs a{position:relative;}
     <div class="card"><b>📰 Media</b><br><ul class="pl"><li>MyJoyOnline · Graphic Online</li><li>Modern Ghana · YouTube</li></ul></div>
     <div class="card"><b>🏦 Financial/Education</b><br><ul class="pl"><li>Partner bank (YGDB savings)</li><li>Schools MOU pipeline</li></ul></div>
   </div>
+  <div class="card" style="margin-top:12px"><b>🧭 The Relationship System (Sep 2026)</b><br>
+    <ul class="pl">
+    <li><b>Register:</b> ATF_Stakeholder_Register_v1.0.xlsx — 30 stakeholders pre-filled · update every Friday · copies in 06_Programme_Restructuring + Documents\ATF-Chief-of-Staff</li>
+    <li><b>The Ladder:</b> L1 Alumni · L2 Volunteers · L3 Partners · L4 Donors &amp; Funders · L5 Dignitaries · L6 Media — each gets a different treatment</li>
+    <li><b>RECONNECT (lost links):</b> honour first — appreciation + impact, no ask → 2–3 light touches → one small easy "yes" → log it</li>
+    <li><b>3 T method:</b> Thank within 48h · Tell with evidenced numbers · Time through invitations</li>
+    <li><b>Tagging consent:</b> logged Y / N / Ask in the Register before any tag — first touch is always permission</li>
+    <li><b>Dignitary ladder:</b> Friend → Goodwill Ambassador → Patron → Advisory Council (formal roles need Board adoption)</li>
+    <li>Say <b>"relationship system"</b>, <b>"reconnect"</b> or <b>"cadence"</b> in Ask Ox below for the full procedures</li>
+    </ul></div>
   <div class="co green"><b class="tag">Rules</b>Reply within 24h even if just "received, full answer by [date]" · Nudge day 7/14 then monthly · Log every contact same day.</div>
 </section>
 
@@ -854,11 +865,88 @@ nav.tabs a{position:relative;}
   </div>
 </section>
 
+<!-- ================= MY TRACKERS ================= -->
+<section class="page" id="trackers">
+  <style>.trk-overdue{background:#fdecea !important;border-left:4px solid #c0392b;border-radius:8px}.trk-done{opacity:.55}.trk-done span{text-decoration:line-through}</style>
+  <h2 class="pt">🎯 My Trackers</h2>
+  <p class="lede">The Relationship Strategy + Institutional Restructuring, broken into small steps. <b>Tick a step when it's done.</b> Unticked steps past their date show <b style="color:#c0392b">RED</b> and count in the badge. Weekly/monthly steps re-open themselves when a new week or month begins — so nothing is ever forgotten for you.</p>
+  <div id="trkSummary" class="co" style="background:var(--gold-l,#FFF8E1);border-left:4px solid var(--gold,#C9A227)"></div>
+
+  <h3>A — Relationship System <small style="color:var(--grey);font-weight:400">(from the Stakeholder & Relationship Strategy v1.0)</small></h3>
+  <div class="card"><b>One-time setup</b>
+    <label class="ck"><input type="checkbox" id="trkA01" class="trk" data-due="2026-09-11"><span>Read the <b>Stakeholder &amp; Relationship Strategy</b> PDF once (6 pages — the Ladder, RECONNECT, protocols) · <i>06_Programme_Restructuring or Documents\ATF-Chief-of-Staff</i></span></label>
+    <label class="ck"><input type="checkbox" id="trkA02" class="trk" data-due="2026-09-11"><span>Open <b>ATF_Stakeholder_Register_v1.0.xlsx</b> and read the 30 pre-filled names (tabs: Register · Touch Log · Cadence · Segments)</span></label>
+    <label class="ck"><input type="checkbox" id="trkA03" class="trk" data-due="2026-09-16"><span>After the Addendum sitting: record <b>tagging consents (Y/N/Ask)</b> + the <b>DO NOT CONTACT</b> list in the Register — her instructions are final</span></label>
+    <label class="ck"><input type="checkbox" id="trkA04" class="trk" data-due="2026-09-18"><span>Create the <b>LinkedIn Foundation page</b> + polish your CoS profile (role: Chief of Staff, Abena Tay Foundation LBG)</span></label>
+    <label class="ck"><input type="checkbox" id="trkA05" class="trk" data-due="2026-09-11"><span><b>Import</b> ATF_Command_Centre_backup_2026-09-08_v2.json (Downloads) into the Command Centre so the new contacts, tasks and dates show in your browser</span></label>
+  </div>
+  <div class="card"><b>Weekly rhythm</b>
+    <label class="ck"><input type="checkbox" id="trkA06" class="trk" data-cycle="weekly"><span><b>Friday Relationship Block</b> — minimum 3 touches (call / WhatsApp / comment) + update the Stakeholder Register</span></label>
+    <label class="ck"><input type="checkbox" id="trkA07" class="trk" data-cycle="weekly"><span><b>Thursday</b> — comment on 3 partners' pages (their news builds more goodwill than our tags)</span></label>
+    <label class="ck"><input type="checkbox" id="trkA08" class="trk" data-cycle="weekly"><span><b>Thursday</b> — post 1 impact item with evidenced numbers (1,050+ · 800+ · 10,000 · 98)</span></label>
+  </div>
+  <div class="card"><b>Monthly</b>
+    <label class="ck"><input type="checkbox" id="trkA09" class="trk" data-cycle="monthly"><span><b>Partner Spotlight</b> post — honour one partner publicly</span></label>
+    <label class="ck"><input type="checkbox" id="trkA10" class="trk" data-cycle="monthly"><span>Clear the <b>personal check-ins</b> due list (Warm/Cool relationships)</span></label>
+    <label class="ck"><input type="checkbox" id="trkA11" class="trk" data-cycle="monthly"><span><b>Volunteer &amp; member note</b> — "here is what you achieved this month"</span></label>
+    <label class="ck"><input type="checkbox" id="trkA12" class="trk" data-cycle="monthly"><span><b>Back up</b> Register + workspace data (1st of the month)</span></label>
+  </div>
+  <div class="card"><b>Quarterly / Yearly</b>
+    <label class="ck"><input type="checkbox" id="trkA13" class="trk" data-cycle="quarterly"><span><b>One-page Stakeholder Brief</b> — "what your support achieved" with evidenced numbers (Founder approves)</span></label>
+    <label class="ck"><input type="checkbox" id="trkA14" class="trk" data-cycle="quarterly"><span><b>Dignitary letters / invitations</b> (letter unfreeze protocol: letterhead → facts → her approval → send &amp; log)</span></label>
+    <label class="ck"><input type="checkbox" id="trkA15" class="trk" data-cycle="yearly"><span><b>Impact Report</b> to every stakeholder</span></label>
+    <label class="ck"><input type="checkbox" id="trkA16" class="trk" data-due="2026-10-31"><span>Propose the <b>ATF Appreciation Day</b> date to the Founder (honour every helper; dignitaries seated of honour)</span></label>
+    <label class="ck"><input type="checkbox" id="trkA17" class="trk" data-cycle="yearly"><span><b>Legacy Breakfast</b> — 20–30 dignitaries &amp; funders, built on the 30-Year Legacy Timeline</span></label>
+  </div>
+
+  <h3>B — Restructuring &amp; Founder Sittings <small style="color:var(--grey);font-weight:400">(from the Interview Pack + Addendum 1 — one step per sitting)</small></h3>
+  <div class="card"><b>Founder sittings (Wednesdays)</b>
+    <label class="ck"><input type="checkbox" id="trkB01" class="trk" data-due="2026-09-09"><span><b>SITTING 1 — Part 0:</b> confirm the official programme register (P01–P10) with Her Excellency — 30 minutes with the printed table</span></label>
+    <label class="ck"><input type="checkbox" id="trkB02" class="trk" data-due="2026-09-16"><span><b>SITTING 2 — Part A + G1–G2:</b> authority tiers, team, money, permissions + the people and sponsors of 30 years</span></label>
+    <label class="ck"><input type="checkbox" id="trkB03" class="trk" data-due="2026-09-16"><span><b>Addendum G3–G4:</b> every dignitary hosted + her dream Patrons + her tagging &amp; publicity boundaries</span></label>
+    <label class="ck"><input type="checkbox" id="trkB04" class="trk" data-due="2026-09-23"><span><b>Addendum G5–G6:</b> contact harvest — phones, diaries, albums, church records + membership verdict</span></label>
+  </div>
+  <div class="card"><b>Programme interviews — the 7 Stations (one programme per Wednesday)</b>
+    <label class="ck"><input type="checkbox" id="trkB05" class="trk" data-due="2026-09-23"><span><b>P04 Healing Circles for Girls</b> — 7 Stations interview → send answers to Ox for the Playbook</span></label>
+    <label class="ck"><input type="checkbox" id="trkB06" class="trk" data-due="2026-09-30"><span><b>P03 Flow with Dignity</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB07" class="trk" data-due="2026-10-07"><span><b>P06 Mothers of Strength</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB08" class="trk" data-due="2026-10-14"><span><b>P09 Prison Counselling &amp; Rehab (Nsawam)</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB09" class="trk" data-due="2026-10-21"><span><b>P01 GirlStrong Initiative</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB10" class="trk" data-due="2026-10-28"><span><b>P02 Safe Minds for Children</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB11" class="trk" data-due="2026-11-04"><span><b>P05 Let Us Kick Stigma</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB12" class="trk" data-due="2026-11-11"><span><b>P07 SAGCTS</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB13" class="trk" data-due="2026-11-18"><span><b>P08 YGDB</b> — 7 Stations interview</span></label>
+    <label class="ck"><input type="checkbox" id="trkB14" class="trk" data-due="2026-11-25"><span><b>P10 GirlChild Vocational &amp; Technical Training</b> — 7 Stations interview</span></label>
+  </div>
+  <div class="card"><b>The decades harvest — small bites of a big task</b>
+    <label class="ck"><input type="checkbox" id="trkB15" class="trk" data-due="2026-09-30"><span><b>Decade 1: 1997–2007</b> (Child in Need era) — who helped, what they gave, still reachable? <i>One sitting, 10–15 names is enough.</i></span></label>
+    <label class="ck"><input type="checkbox" id="trkB16" class="trk" data-due="2026-10-07"><span><b>Decade 2: 2007–2017</b> — same questions, next era</span></label>
+    <label class="ck"><input type="checkbox" id="trkB17" class="trk" data-due="2026-10-14"><span><b>Decade 3: 2017–2026</b> (ATF era) — same questions, current partners</span></label>
+  </div>
+  <div class="card"><b>RECONNECT — rebuilding lost relationships (5 at a time)</b>
+    <label class="ck"><input type="checkbox" id="trkB18" class="trk" data-due="2026-10-02"><span><b>Batch 1:</b> 5 appreciation messages — honour first, report impact, no ask (script in the Strategy PDF §2)</span></label>
+    <label class="ck"><input type="checkbox" id="trkB19" class="trk" data-due="2026-10-16"><span><b>Batch 2:</b> 5 more — then 2–3 light touches over the following weeks</span></label>
+    <label class="ck"><input type="checkbox" id="trkB20" class="trk" data-due="2026-10-30"><span><b>Batch 3:</b> 5 more — then one small, easy "yes" invitation each</span></label>
+  </div>
+  <div class="card"><b>Build &amp; test</b>
+    <label class="ck"><input type="checkbox" id="trkB21" class="trk" data-due="2026-10-28"><span><b>Playbooks 1–5</b> drafted from her answers (10 sections each — Ox builds them from the interview notes)</span></label>
+    <label class="ck"><input type="checkbox" id="trkB22" class="trk" data-due="2026-11-11"><span><b>Playbooks 6–10</b> drafted</span></label>
+    <label class="ck"><input type="checkbox" id="trkB23" class="trk" data-due="2026-11-11"><span><b>Founder-absent dry-run:</b> one full outreach run using only its Playbook — it should feel like she was there</span></label>
+    <label class="ck"><input type="checkbox" id="trkB24" class="trk" data-due="2026-11-30"><span><b>Board adoption:</b> Patrons &amp; Advisory Council Terms of Reference</span></label>
+  </div>
+  <div class="co"><b class="tag">Overwhelmed rule</b>The task is big — the steps are small. Follow ONE item at a time: tick it, forget it, take the next. The badge shows what is open; the red rows show what is past due; everything else waits its turn. You carry the action — the system carries the memory.</div>
+</section>
+
 <!-- ================= KEY DATES ================= -->
 <section class="page" id="dates">
   <h2 class="pt">📅 Key Dates</h2>
   <p class="lede">Foundation rhythm + international moments we campaign on. All also live in your phone calendar via the reminder pack.</p>
   <div class="scroll"><table><tr><th>Date</th><th>What</th><th>Days away</th></tr>
+  <tr><td>Wed 9 Sep 2026</td><td>Founder sitting 1 — Part 0: confirm the official programme register</td><td class="cd" data-date="2026-09-09"></td></tr>
+  <tr><td>Wed 16 Sep 2026</td><td>Founder sitting 2 — Part A + Addendum G (relationships, donors, dignitaries)</td><td class="cd" data-date="2026-09-16"></td></tr>
+  <tr><td>Every Wednesday</td><td>Programme interview sitting — 7 Stations, one programme each</td><td class="cd" data-weekday="3"></td></tr>
+  <tr><td>Every Friday</td><td>Relationship Block — 3 touches + Stakeholder Register update</td><td class="cd" data-weekday="5"></td></tr>
+  <tr><td>11 Nov 2026</td><td>Playbooks complete + founder-absent dry-run test</td><td class="cd" data-date="2026-11-11"></td></tr>
   <tr><td>Monthly · last working day</td><td>Monthly close + report to Founder</td><td class="cd" data-date=""></td></tr>
   <tr><td>Every Tuesday</td><td>Pipeline update day</td><td class="cd" data-weekday="2"></td></tr>
   <tr><td>First Tuesday monthly</td><td>Opportunity Radar scan</td><td class="cd" data-firsttue="1"></td></tr>
@@ -1107,6 +1195,20 @@ document.addEventListener("click",function(ev){if(!ev.target.closest("#searchWra
 
 // ============ OX CHAT BRAIN ============
 const KB=[
+ {k:["restructuring","institutional restructuring","restructure","playbooks","programme playbooks","program playbooks"],a:"🏗️ INSTITUTIONAL RESTRUCTURING (started Sep 2026) — the goal: every programme can run without the Founder present ('she carries the vision, the system carries the programme') and every relationship is a managed Foundation asset.\nDeliverables v1.0 (7 Sep 2026): 1) Founder Programme Interview Pack — Part 0 confirms the official programme register, then the '7 Stations' per programme, ending in a 10-section Playbook each. 2) Stakeholder & Relationship Strategy — the Ladder L1-L6, RECONNECT, 3T, cadence, social media protocol, dignitary ladder. 3) ATF_Stakeholder_Register_v1.0.xlsx — 30 stakeholders pre-filled. 4) Interview Addendum 1 (Part G) — harvest 30 years of relationships.\nFiles: Desktop\\AMB ABENA TAY INFO\\06_Programme_Restructuring + copies in Documents\\ATF-Chief-of-Staff. Track progress in My Trackers (drawer)."},
+ {k:["programme register","official programmes","p01","p10","list of programmes","all programmes","how many programmes"],a:"📋 OFFICIAL PROGRAMME REGISTER (to confirm with the Founder in Part 0):\nP01 GirlStrong Initiative (girls strong, safe, confident — 1,050+ in 2026) · P02 Safe Minds for Children (child mental health) · P03 Flow with Dignity (menstrual health — 800+) · P04 Healing Circles for Girls (launched May 2026) · P05 Let Us Kick Stigma · P06 Mothers of Strength (widows & mothers — 10,000) · P07 Send a Girl Child to School (SAGCTS) · P08 Young Girls Development Bank (savings + enterprise) · P09 Prison Counselling & Rehabilitation (Nsawam — 98 women) · P10 GirlChild Vocational & Technical Training.\nCommunity & Faith Development = the 30-year umbrella (CIN 1997 root), to confirm as legacy or active."},
+ {k:["7 stations","seven stations","interview pack","part 0","part a","founder interview","sitting with founder","wednesday sitting"],a:"🎤 THE FOUNDER INTERVIEW PACK — how the sittings work:\nPART 0 (30 min, Wed 9 Sep): read the P01-P10 table to Her Excellency — she marks Active/Paused/Finished and her own order of importance.\nPART A (once): authority tiers (GREEN = team decides / AMBER = CoS decides & informs her / RED = only her, Art. 45 signing), her personal role per programme, team & key contacts, calendar, money, permissions, red lines.\nTHE 7 STATIONS (per programme, one Wednesday each): 1 Purpose & People · 2 Preparation (day before) · 3 Arrival & who receives us · 4 The session (running order + speeches) · 5 Evidence & documentation · 6 Impact & follow-up · 7 Reporting & relationships.\nPART F: her answers become a 10-section Playbook. Rule: one sitting = one programme; record with permission; numbers marked Verified / To verify / Withdrawn."},
+ {k:["10 sections","playbook sections","what is in a playbook","fact sheet"],a:"📖 THE 10-SECTION PLAYBOOK (built from her answers after each sitting):\n1 Programme Fact Sheet (1 page) · 2 Objective & Flow · 3 Step-by-Step SOP (preparation → travel → arrival → session → close) · 4 Roles & Decision Rights (GREEN/AMBER/RED) · 5 Beneficiary & Consent Rules (Art. 57, form CT1) · 6 Resources & Outreach Kit List · 7 Calendar & Rhythm · 8 KPIs & Evidence · 9 Reporting & Follow-up (daily log → monthly report → quarterly review) · 10 Handover Notes (founder-only items + the message card for a stand-in speaker).\nFinal test: a trained person runs one full outreach with only the Playbook. Draft due dates: first 5 by 28 Oct, all 10 by 11 Nov, dry-run 11 Nov."},
+ {k:["part g","addendum","harvest","contact harvest","founder contacts","old contacts","diaries","albums"],a:"🗂️ INTERVIEW ADDENDUM 1 — PART G (relationships, donors & dignitaries):\nG1 The people of 30 years (era by era) · G2 Sponsors & donors — who gave, what happened, DO NOT CONTACT list · G3 Every dignitary hosted + her dream Patrons · G4 Her rules: tagging consent, private relationships, use of old photos · G5 Where records live — phones, diaries, invitation cards, church records, photo albums · G6 Membership verdict (Friends of ATF).\nRule: every name she mentions gets a row in the Stakeholder Register the same day. 'Do not contact' instructions are final — log and move on."},
+ {k:["decades","30 years of contacts","too much work","overwhelmed","huge task"],a:"🪜 THE DECADES HARVEST — how to eat the big task:\nStep 1: decade 1 = 1997-2007 (Child in Need era) — one sitting, 10-15 names is enough. Step 2: decade 2 = 2007-2017. Step 3: decade 3 = 2017-2026 (ATF era).\nFor each name: who · organisation · what they did · still in touch? (Champion / Active / Warm / Cool / Lost / Unknown) · last contact.\nThen RECONNECT in batches of 5 (see 'reconnect'). The Register holds everything so your head does not have to. Track each decade in My Trackers — one tick at a time."},
+ {k:["relationship ladder","segments","l1","l6","alumni","friends of atf","membership"],a:"🪜 THE ATF RELATIONSHIP LADDER (6 segments, each with its own treatment):\nL1 Alumni — beneficiaries from 30 years → alumnae network, mentors, living proof. L2 Family & Volunteers → recognition, certificates, Friends of ATF membership. L3 Institutional Partners (ABANTU, NORSAAC, GES, Prisons, banks) → joint programmes, quarterly review. L4 Donors & Funders → thank-you within 48h, impact reports, invitations before asks. L5 Dignitaries & High-Profile → protocol letters, briefing packs, seats of honour. L6 Media → story pitches with numbers.\nFRIENDS OF ATF: one sign-up door (volunteer form), induction pack, recognition ladder (Certificate → Volunteer of the Month → Team Lead), bring-a-friend each term, monthly note with the numbers they helped achieve."},
+ {k:["reconnect","lost relationships","rebuild relationships","old sponsor","lapsed donor","win back","appreciation message","re-approach"],a:"🔁 THE RECONNECT SEQUENCE (rebuilding lost relationships, 6 steps):\n1 LIST (harvest from her) → 2 RESEARCH (10 min each: still in role? correct title? sensitive?) → 3 RE-APPROACH: appreciation first, report impact, no ask — script: 'Good afternoon [name]. I am Paul Hungo, Chief of Staff to H.E. Amb. Rev. Dr. Abena Tay. She often remembers the support you gave to [programme] and asked us to reach you personally. Because of that support, [evidenced result]. She would be honoured if we could reconnect — may I send you our one-page update?' → 4 REBUILD (2-3 light touches) → 5 RE-INVITE (one small easy yes: attend an event, visit a programme) → 6 RECORD (log every touch in the Register).\nBatches of 5. Due dates in My Trackers (18 Oct / 16 Oct / 30 Oct)."},
+ {k:["3t","touch cadence","cadence","friday relationship block","relationship block","3 touches","thank you rule"],a:"⏱️ THE TOUCH CADENCE (rhythm beats inspiration):\nWEEKLY Friday: Relationship Block — minimum 3 touches (call / WhatsApp / comment) + update the Register. WEEKLY Thursday: comment on 3 partners' pages + post 1 impact item with evidenced numbers. MONTHLY: Partner Spotlight post · personal check-ins cleared · volunteer note · backup on the 1st. QUARTERLY: one-page Stakeholder Brief (Founder approves) · dignitary letters. YEARLY: Impact Report · ATF Appreciation Day · Legacy Breakfast.\nTHE 3 T: Thank within 48 hours · Tell with numbers, not adjectives · Time — birthdays, their milestones, invitations. Involvement ladder: follow → like → attend → visit → speak/mentor → give → champion. One rung at a time."},
+ {k:["tagging","tag partners","social media protocol","linkedin","consent to tag","partner spotlight","posting rules"],a:"📱 SOCIAL MEDIA PROTOCOL:\nHard rules: her exact title 'H.E. Amb. Rev. Dr. Abena Tay, CDSE' — spoken: 'Her Excellency, Ambassador Reverend Dr. Abena Tay'; her credential is 'Ambassador for Peace, Universal Peace Federation' (conferred in Ghana, 14 Aug 2022). Evidenced numbers only. Children and inmates appear only with guardian consent (Art. 57, form CT1). Tag consent logged Y/N/Ask in the Register — first touch is always a permission line: 'May we tag you when we post about [programme]? It would mean a lot.'\nWeekly rhythm (Thu, 30 min): 1 post with numbers · tag 1-3 consenting partners · comment on 3 partners' pages · thank every substantive mention.\nLINKEDIN warm sequence: follow → comment on 2-3 posts → connect with a personal note → share one-pager later. Connect note: 'Dear [name], I lead institutional development at Abena Tay Foundation LBG (women & girls, Ghana — 30 years of community service). I admire [specific thing]. Would be glad to connect.'"},
+ {k:["patron","goodwill ambassador","advisory council","dignitary","dignitaries","high profile","protocol"],a:"🎖️ DIGNITARY ENGAGEMENT — the roles ladder:\nFriend of ATF (receives briefs) → Goodwill Ambassador (1 public endorsement/year + 1 event) → Patron (2-4 max: annual appearance, opens doors) → Advisory Council (meets 2x/year; needs Board adoption via Committees ToR).\nPROTOCOL every time: 1 formal invitation letter on letterhead, signed by the Founder (Art. 45), with the one-page profile · 2 briefing pack before any meeting (who they are, what they care about, what we want, what we offer) · 3 correct titles, protocol order of greeting, professional photos · 4 thank-you letter within 48h + photos · 5 annual touch even without business.\nCurrent pool: UPF Ghana network (Ambassador for Peace, 14 Aug 2022) · World Peace Summit contacts · FGA Award network · UN Resident Coordinator · Ga East leadership · traditional authorities · partner-bank executives."},
+ {k:["tracker","trackers","my trackers","tick","checklist","badge","overdue","what should i do today"],a:"🎯 MY TRACKERS (drawer menu) — your whole job in small steps:\nTracker A = Relationship System (setup steps + weekly Friday block + monthly + quarterly + yearly). Tracker B = Restructuring & Founder Sittings (Part 0, the 7-Stations interviews programme by programme, the decades harvest, RECONNECT batches, playbooks, dry-run, Board adoption).\nHOW IT WORKS: tick a step when done — it fades. Unticked steps past their date turn RED and count in the badge on the menu + Today page. Weekly/monthly steps re-open themselves when a new week or month begins.\nOverwhelmed rule: ONE item at a time — tick it, forget it, take the next. The badge remembers for you."},
+ {k:["stakeholder register","the register","register xlsx","update register","do not contact","strength scale"],a:"📊 ATF_STAKEHOLDER_REGISTER_v1.0.xlsx — the master relationship list:\n30 stakeholders pre-filled (ABANTU, NORSAAC, WDB, CUA, YGDB bank, MoGCSP, Social Welfare/NPOS, Registrar General, MoF, Bank of Ghana, GES Ga East, Nsawam, UN RC + UNICEF/UN Women/UNFPA, UPF, World Peace Summit, FGA, media, church network...). Tabs: Register · Touch_Log (every contact, same day) · Cadence_Calendar · Segments.\nStrength scale: Champion / Active / Warm / Cool / Lost / Unknown / DO NOT CONTACT. Consent to tag: Y / N / Ask. Update every Friday in the Relationship Block; back up the 1st of the month. Copies: 06_Programme_Restructuring + Documents\\ATF-Chief-of-Staff. The Command Centre (Contacts + Partnerships tabs) mirrors the same names."},
+ {k:["project dates","when is the interview","playbook deadline","dry run","board adoption","sitting dates"],a:"📅 RESTRUCTURING DATES (also on Key Dates page + Command Centre):\nWed 9 Sep 2026 — Founder sitting 1: Part 0 (confirm programme register) · Wed 16 Sep — sitting 2: Part A + Addendum G1-G4 · Wed 23 Sep — G5-G6 contact harvest + first programme interview (Healing Circles) · Wednesdays after — one programme per sitting, ending GirlChild VT 25 Nov · 30 Sep / 7 Oct / 14 Oct — decades harvest 1-2-3 · 2/16/30 Oct — RECONNECT batches 1-2-3 · 28 Oct — Playbooks 1-5 · 11 Nov — Playbooks 6-10 + founder-absent dry-run · 30 Nov — Board adoption of Patrons & Advisory Council ToRs.\nEvery Friday: Relationship Block (phone nudge comes automatically)."},
  {k:["vocational training","vocational","skills training","train girls","girls training","free training","apprenticeship"],a:"🎓 Free vocational training for school girls — launch plan:\n1. SCOPE: start with 2–3 trades — sewing, hairdressing, catering, ICT basics.\n2. SCHOOL PARTNERSHIP: letter to the headteacher, copy GES district director (ready templates on Document Hub → Letters Index).\n3. VENUE & TRAINERS: school hall after hours; certified artisans (NVTI holders) or partner a nearby TVET institute.\n4. BENEFICIARIES: agree selection criteria with the school (need + commitment); cap 25–30 per batch.\n5. BUDGET: trainer fees, starter kits, certificates, refreshments — a pilot term can run on GH₵8,000–15,000.\n6. FUNDING: sponsorship letters to local businesses & churches (templates ready) + our funder pipeline.\n7. SAFEGUARDING: parental consent forms, female instructor/warden present, attendance register every session.\n8. CERTIFICATION: negotiate NVTI/TVET proficiency certificates — the biggest draw for girls AND parents.\n9. LAUNCH: invite PTA, chiefs, media — Visibility kit has talking points.\n10. EVIDENCE: photos, register, testimonies → donor report within 2 weeks.\nSay \"proposal\" or \"budget\" for the next-level detail."},
  {k:["new program","start a program","launch a program","new project","new initiative","introduce"],a:"🚀 Launching ANY new foundation program — the universal 8 steps:\n1. DEFINE: who benefits, what changes for them, how many.\n2. PARTNER: who hosts or co-delivers (school, church, clinic, assembly).\n3. RESOURCES: venue, people, materials, budget estimate.\n4. APPROVAL: brief Madam, get her green light in writing (WhatsApp is fine).\n5. PAPER: proposal one-pager + budget (Handbook §14 templates; ask Ox to draft full versions).\n6. FUND: sponsorship letters, partners' in-kind, funder pipeline.\n7. RUN PILOT: small first batch, register everything, photograph evidence.\n8. REPORT & SCALE: donor report in 2 weeks, KPI numbers, then expand.\nTell me the program idea and I'll tailor these steps."},
  {k:["proposal","write a proposal","concept note"],a:"📝 Program proposal skeleton (one page wins):\n1. Title + applicant details\n2. Problem (2 sentences, local evidence)\n3. Solution — your program (what, when, where, who)\n4. Beneficiaries & numbers\n5. Activities timeline\n6. Budget summary table\n7. Expected results (measurable)\n8. About the Foundation + contact.\nFull drafts live in Handbook §14 and the Funding Pack on the Document Hub. Ask Ox on the computer to generate a filled draft for any specific program."},
@@ -1475,6 +1577,39 @@ document.querySelectorAll('input[type=checkbox]').forEach(cb=>{
   if(localStorage.getItem(k)==='1')cb.checked=true;
   cb.addEventListener('change',()=>localStorage.setItem(k,cb.checked?'1':'0'));
 });
+
+// ============ MY TRACKERS (tick + auto reminder badge) ============
+const TRK_CYCLES={weekly:7,monthly:31,quarterly:92,yearly:365};
+function trkPending(cb){
+  const cy=cb.dataset.cycle;
+  if(cy){const ts=+(localStorage.getItem('cos_trkts_'+cb.id)||0);return !ts||((Date.now()-ts)>TRK_CYCLES[cy]*86400000);}
+  return !cb.checked;
+}
+function trkOverdue(cb){return !!(cb.dataset.due&&trkPending(cb)&&new Date(cb.dataset.due+'T23:59:59')<new Date());}
+function trkRefresh(){
+  let open=0,over=0,done=0;
+  const all=document.querySelectorAll('input.trk');
+  all.forEach(cb=>{
+    const lab=cb.closest('label');if(!lab)return;
+    const p=trkPending(cb),o=trkOverdue(cb);
+    if(p)open++;if(o)over++;if(!p)done++;
+    lab.classList.toggle('trk-overdue',o);
+    lab.classList.toggle('trk-done',!p);
+  });
+  const txt=open===0?'🎉 ALL CLEAR — every step ticked. Rest well, then take the next rhythm item when its cycle opens.'
+    :'Open steps: <b>'+open+'</b>'+(over>0?(' &nbsp;·&nbsp; <b style="color:#c0392b">Past due: '+over+'</b>'):'')+' &nbsp;·&nbsp; Done so far: '+done+' of '+all.length+'. &nbsp;One step at a time — the system carries the memory.';
+  const sum=document.getElementById('trkSummary');if(sum)sum.innerHTML=txt;
+  const pill=document.getElementById('trackPill'),tp=document.getElementById('todayTrkPill');
+  [pill,tp].forEach(p=>{if(!p)return;p.style.display=open>0?'inline-block':'none';p.textContent=open>99?'99+':String(open);});
+  try{if(open>0&&navigator.setAppBadge)navigator.setAppBadge(Math.min(open,99));else if(open===0&&navigator.clearAppBadge)navigator.clearAppBadge();}catch(e){}
+}
+document.querySelectorAll('input.trk').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    if(cb.dataset.cycle&&cb.checked)localStorage.setItem('cos_trkts_'+cb.id,String(Date.now()));
+    trkRefresh();
+  });
+});
+trkRefresh();
 
 // DRAWER
 function toggleDrawer(open){
