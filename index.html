@@ -1587,20 +1587,23 @@ if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostnam
  window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
 }
 // AUTO-UPDATE: check the build marker and reload when a new version is published
-var APP_BUILD="2026-09-09.2";
+var APP_BUILD="2026-09-14.1";
 (function oxAutoUpdate(){
  if(!(location.protocol==="http:"||location.protocol==="https:"))return;
  function checkBuild(){
+  if(sessionStorage.getItem("cos_reloading")==="1")return; // reload already in flight - stop blinking
   fetch("version.json?cb="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null;}).then(function(d){
    if(d&&d.build&&d.build!==APP_BUILD){
     var st=document.getElementById("inboxStatus");
     if(st)st.textContent="Update "+d.build+" arrived refreshing your app now";
+    try{sessionStorage.setItem("cos_reloading","1");}catch(e){}
     setTimeout(function(){location.reload();},1200);
    }
   }).catch(function(){});
  }
  setInterval(checkBuild,60000);
  checkBuild();
+ try{if(sessionStorage.getItem("cos_reloading")==="1"&&APP_BUILD==="2026-09-14.1")sessionStorage.removeItem("cos_reloading");}catch(e){}
 })();
 
 // ROUTER

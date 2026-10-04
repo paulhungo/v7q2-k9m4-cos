@@ -1,1 +1,1 @@
-{ "build": "2026-09-14.1", "note": "CoS Operations Platform - auto-update marker. Bump this build number every time index.html, sw.js or messages.json change." }
+{"build": "2026-09-14.2", "note": "CoS Operations Platform - auto-update marker. Bump this build number every time index.html, sw.js or messages.json change. 2026-09-14.2 = blink fix: APP_BUILD marker synced + one-reload guard."}
